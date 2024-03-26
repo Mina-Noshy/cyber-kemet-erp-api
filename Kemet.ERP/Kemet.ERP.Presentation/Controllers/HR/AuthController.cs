@@ -16,7 +16,7 @@ namespace Kemet.ERP.Presentation.Controllers.HR
 
 
         [HttpPost("get-token")]
-        public async Task<IActionResult> GetToken(GetTokenDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetTokenAsync(GetTokenDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _hrServiceManager.AuthService.GetTokenAsync(request, cancellationToken));
 
     }

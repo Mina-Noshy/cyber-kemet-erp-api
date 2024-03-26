@@ -4,7 +4,7 @@ using Kemet.ERP.Contracts.HttpResponse;
 
 namespace Kemet.ERP.Abstraction.IEntity.HR
 {
-    public interface IRegionService : IQueryService<RegionDto>
+    public interface IRegionService : ICRUDService<RegionDto>
     {
         Task<ApiResponse> GetAllAsync(long countryId, CancellationToken cancellationToken = default);
     }

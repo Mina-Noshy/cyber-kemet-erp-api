@@ -44,6 +44,8 @@ namespace Kemet.ERP.Services.Entity.HR
             var userInfo = new UserInfoDto
             {
                 Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 UserName = user?.UserName,
                 Email = user?.Email,
                 AccessToken = GenerateJwtToken(user, roles),

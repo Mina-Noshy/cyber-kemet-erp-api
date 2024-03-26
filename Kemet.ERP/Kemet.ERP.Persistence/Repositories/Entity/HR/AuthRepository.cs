@@ -14,6 +14,8 @@ namespace Kemet.ERP.Persistence.Repositories.Entity.HR
 
 
 
+
+
         public async Task<bool> CheckPasswordAsync(AppUser user, string password, CancellationToken cancellationToken = default)
             => await _userManager.CheckPasswordAsync(user, password);
 

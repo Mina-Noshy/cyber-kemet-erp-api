@@ -1,5 +1,4 @@
 ﻿using Kemet.ERP.Abstraction.IEntity.HR;
-using Kemet.ERP.Contracts;
 using Kemet.ERP.Contracts.HR;
 using Kemet.ERP.Contracts.HttpResponse;
 using Kemet.ERP.Domain.Entities.HR;
@@ -28,9 +27,9 @@ namespace Kemet.ERP.Services.Entity.HR
             return new ApiResponse(true, "The account has been created successfully");
         }
 
-        public async Task<ApiResponse> GetAllAsync(PaginationDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> GetAllAsync(int skip, int take, CancellationToken cancellationToken = default)
         {
-            var lst = await _hrRepositoryManager.AccountRepository.GetAllAsync(request.Skip, request.Take, cancellationToken);
+            var lst = await _hrRepositoryManager.AccountRepository.GetAllAsync(skip, take, cancellationToken);
 
             var lstDto = lst.Adapt<IEnumerable<UserInfoDto>>();
 

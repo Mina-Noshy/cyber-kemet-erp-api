@@ -8,9 +8,10 @@ namespace Kemet.ERP.Persistence.Repositories.Entity.HR
     internal class RegionRepository : IRegionRepository
     {
         private readonly RepositoryDbContext _dbContext;
-
         public RegionRepository(RepositoryDbContext dbContext)
             => _dbContext = dbContext;
+
+
 
 
         public async Task<IEnumerable<Region>> GetAllAsync(int skip, int take, CancellationToken cancellationToken = default)
@@ -25,5 +26,13 @@ namespace Kemet.ERP.Persistence.Repositories.Entity.HR
         public async Task<Region?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
             => await _dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
+        public void Create(Region entity)
+            => _dbContext.Regions.Add(entity);
+
+        public void Update(Region entity)
+            => _dbContext.Regions.Update(entity);
+
+        public void Delete(Region entity)
+            => _dbContext.Regions.Remove(entity);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Kemet.ERP.Contracts
+﻿namespace Kemet.ERP.Contracts.Common
 {
     public class PaginationDto : IDto
     {
