@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "KemetCS": "Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=Kemet; Integrated Security=True; MultipleActiveResultSets=True; TrustServerCertificate=True; Connect Timeout=600;"
+    //"KemetCS": "Data Source=52.142.149.30; Initial Catalog=Kemet; User Id=sa; Password=Epms4321; MultipleActiveResultSets=True; TrustServerCertificate=True; Connect Timeout=600;"
+  }
+}

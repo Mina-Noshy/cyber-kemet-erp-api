@@ -1,0 +1,10 @@
+{
+  "Serilog": {
+    "path": "wwwroot/logger/log-{date}.txt",
+    //"connectionString": "Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=BelsionsRFS; Integrated Security=True; MultipleActiveResultSets=True; TrustServerCertificate=True; Connect Timeout=600;",
+    "connectionString": "Data Source=52.142.149.30; Initial Catalog=BelsionsRFS; User Id=sa; Password=Epms4321; MultipleActiveResultSets=True; TrustServerCertificate=True; Connect Timeout=600;",
+    "tableName": "ExceptionLogs",
+    "schemaName": "dbo",
+    "autoCreateSqlTable": true
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "ApiKeys": {
+    "ApiKey1": "9e4a217c6f973c65e19867ad741e6c5b",
+    "ApiKey2": "9e4a217c6f973c65e19867ad741e6c5b",
+    "InvalidAPIKeyMsg": "Invalid api-key value, Please add it and try again"
+  }
+}
