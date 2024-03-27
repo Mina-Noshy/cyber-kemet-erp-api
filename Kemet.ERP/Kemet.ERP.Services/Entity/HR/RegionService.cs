@@ -18,43 +18,49 @@ namespace Kemet.ERP.Services.Entity.HR
 
         public async Task<ApiResponse> GetAllAsync(int skip, int take, CancellationToken cancellationToken = default)
         {
-            var lst = await _hrRepositoryManager.RegionRepository.GetAllAsync(skip, take, cancellationToken);
+            var lst =
+                await _hrRepositoryManager.RegionRepository.GetAllAsync(skip, take, cancellationToken);
 
-            var lstDto = lst.Adapt<IEnumerable<RegionDto>>();
+            var lstDto =
+                lst.Adapt<IEnumerable<RegionDto>>();
 
             return new ApiResponse(true, lstDto);
         }
 
         public async Task<ApiResponse> GetAllAsync(long countryId, CancellationToken cancellationToken = default)
         {
-            var lst = await _hrRepositoryManager.RegionRepository.GetAllAsync(countryId, cancellationToken);
+            var lst =
+                await _hrRepositoryManager.RegionRepository.GetAllAsync(countryId, cancellationToken);
 
-            var lstDto = lst.Adapt<IEnumerable<RegionDto>>();
+            var lstDto =
+                lst.Adapt<IEnumerable<RegionDto>>();
 
             return new ApiResponse(true, lstDto);
         }
 
         public async Task<ApiResponse> GetByIdAsync(long id, CancellationToken cancellationToken = default)
         {
-            var entity = await _hrRepositoryManager.RegionRepository.GetByIdAsync(id, cancellationToken);
+            var entity =
+                await _hrRepositoryManager.RegionRepository.GetByIdAsync(id, cancellationToken);
 
             if (entity is null)
-            {
                 throw new EntityNotFoundException<Region>(id);
-            }
 
-            var entityDto = entity.Adapt<RegionDto>();
+            var entityDto =
+                entity.Adapt<RegionDto>();
 
             return new ApiResponse(true, entityDto);
         }
 
         public async Task<ApiResponse> CreateAsync(RegionDto request, CancellationToken cancellationToken = default)
         {
-            var entity = request.Adapt<Region>();
+            var entity =
+                request.Adapt<Region>();
 
             _hrRepositoryManager.RegionRepository.Create(entity);
 
-            var effectedRows = await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            var effectedRows =
+                await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulCreate);
@@ -64,11 +70,13 @@ namespace Kemet.ERP.Services.Entity.HR
 
         public async Task<ApiResponse> UpdateAsync(RegionDto request, CancellationToken cancellationToken = default)
         {
-            var entity = request.Adapt<Region>();
+            var entity =
+                request.Adapt<Region>();
 
             _hrRepositoryManager.RegionRepository.Update(entity);
 
-            var effectedRows = await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            var effectedRows =
+                await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulUpdate);
@@ -78,16 +86,16 @@ namespace Kemet.ERP.Services.Entity.HR
 
         public async Task<ApiResponse> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
-            var entity = await _hrRepositoryManager.RegionRepository.GetByIdAsync(id, cancellationToken);
+            var entity =
+                await _hrRepositoryManager.RegionRepository.GetByIdAsync(id, cancellationToken);
 
             if (entity is null)
-            {
                 throw new EntityNotFoundException<Region>(id);
-            }
 
             _hrRepositoryManager.RegionRepository.Delete(entity);
 
-            var effectedRows = await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            var effectedRows =
+                await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulDelete);

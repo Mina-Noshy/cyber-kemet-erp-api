@@ -4,10 +4,11 @@ namespace Kemet.ERP.Domain.IRepositories.IEntity.HR
 {
     public interface IAccountRepository
     {
-        Task<IEnumerable<AppUser>> GetAllAsync(int skip, int take, CancellationToken cancellationToken = default);
-        Task<AppUser?> GetByIdAsync(string id, CancellationToken cancellationToken = default);
-        Task<AppUser?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
-        Task<AppUser?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
-        Task<AppUser?> CreateAsync(AppUser user, string password, CancellationToken cancellationToken = default);
+        Task<IEnumerable<AppUser>> GetUsersAsync(int skip, int take, CancellationToken cancellationToken = default);
+        Task<AppUser?> GetUserByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<AppUser?> GetUserByNameAsync(string name, CancellationToken cancellationToken = default);
+        Task<AppUser?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
+        Task<AppUser?> GetUserByTokenAsync(string email, CancellationToken cancellationToken = default);
+        Task<AppUser?> CreateUserAsync(AppUser user, string password, CancellationToken cancellationToken = default);
     }
 }

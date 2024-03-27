@@ -124,22 +124,25 @@ namespace Kemet.ERP.Api.ManageExtensions
 
 
             //<=*****************=> Authentication <=*****************=>//
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
+            services.AddAuthentication(opt =>
             {
-                option.RequireHttpsMetadata = false;
-                option.SaveToken = true;
-                option.TokenValidationParameters = new TokenValidationParameters()
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    //ValidateIssuerSigningKey = true,
                     ClockSkew = TimeSpan.Zero,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = ConfigurationHelper.GetJWT("Audience"),
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                     ValidIssuer = ConfigurationHelper.GetJWT("Issuer"),
+                    ValidAudience = ConfigurationHelper.GetJWT("Audience"),
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(ConfigurationHelper.GetJWT("Key")))
                 };
             });
-
 
 
 

@@ -30,12 +30,13 @@ namespace Kemet.ERP.Persistence.Repositories
         public HRRepositoryManager(RepositoryDbContext dbContext,
             IHttpContextAccessor httpContextAccessor,
             UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IMemoryCache memoryCache)
         {
             // Entites
             _lazyCountryRepository = new Lazy<ICountryRepository>(() => new CountryRepository(dbContext));
             _lazyRegionRepository = new Lazy<IRegionRepository>(() => new RegionRepository(dbContext));
-            _lazyAuthRepository = new Lazy<IAuthRepository>(() => new AuthRepository(dbContext, userManager));
+            _lazyAuthRepository = new Lazy<IAuthRepository>(() => new AuthRepository(dbContext, userManager, roleManager));
             _lazyAccountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(userManager));
 
 

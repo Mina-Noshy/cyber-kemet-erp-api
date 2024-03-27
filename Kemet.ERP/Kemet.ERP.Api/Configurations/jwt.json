@@ -1,9 +1,9 @@
 {
   "JWT": {
     "Key": "CYBER_lNmQI0VoEwqqVho1PINmQI0_CYBER_KEMET_jDhKlYeXNQqNmQI0VVho1PINmQI0VJQwSBX2lCK_KEMET",
-    "Issuer": "InventoryAuthenticationServer",
-    "Audience": "InventoryServicePostmanClient",
-    "Subject": "InventoryServiceAccessToken",
+    "Issuer": "https://cyberkemet.com/",
+    "Audience": "https://api.cyberkemet.com/",
+    "Subject": "CyberKemetForITSolutions",
     "AccessTokenExpirationInMinutes": 52000,
     "RefreshTokenExpirationInDays": 70
   }

@@ -15,67 +15,44 @@ namespace Kemet.ERP.Services.Entity.HR
 
 
 
-        public async Task<ApiResponse> CreateAsync(CreateUserDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> CreateUserAsync(CreateUserDto request, CancellationToken cancellationToken = default)
         {
-            var entity = request.Adapt<AppUser>();
+            var entity =
+                request.Adapt<AppUser>();
 
-            var user = await _hrRepositoryManager.AccountRepository.CreateAsync(entity, request.Password);
+            var user =
+                await _hrRepositoryManager.AccountRepository.CreateUserAsync(entity, request.Password, cancellationToken);
 
             if (user is null)
-                return new ApiResponse(false, "Failed to create the account. Please check your input and try again later");
+                return new ApiResponse(false, "Failed to create the user. Please check your input and try again later");
 
-            return new ApiResponse(true, "The account has been created successfully");
+            return new ApiResponse(true, "The user has been created successfully");
         }
 
-        public async Task<ApiResponse> GetAllAsync(int skip, int take, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> GetUsersAsync(int skip, int take, CancellationToken cancellationToken = default)
         {
-            var lst = await _hrRepositoryManager.AccountRepository.GetAllAsync(skip, take, cancellationToken);
+            var lst =
+                await _hrRepositoryManager.AccountRepository.GetUsersAsync(skip, take, cancellationToken);
 
-            var lstDto = lst.Adapt<IEnumerable<UserInfoDto>>();
+            var lstDto =
+                lst.Adapt<IEnumerable<AppUserDto>>();
 
             return new ApiResponse(true, lstDto);
         }
 
-        public async Task<ApiResponse> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> GetUserByIdAsync(string id, CancellationToken cancellationToken = default)
         {
-            var entity = await _hrRepositoryManager.AccountRepository.GetByEmailAsync(email, cancellationToken);
+            var entity =
+                await _hrRepositoryManager.AccountRepository.GetUserByIdAsync(id, cancellationToken);
 
             if (entity is null)
-            {
-                return new ApiResponse(false, $"Account with email '{email}' not found.");
-            }
+                return new ApiResponse(false, $"Account with ID '{id}' was not found.");
 
-            var entityDto = entity.Adapt<AppUserDto>();
+            var entityDto =
+                entity.Adapt<AppUserDto>();
 
             return new ApiResponse(true, entityDto);
         }
 
-        public async Task<ApiResponse> GetByIdAsync(string id, CancellationToken cancellationToken = default)
-        {
-            var entity = await _hrRepositoryManager.AccountRepository.GetByIdAsync(id, cancellationToken);
-
-            if (entity is null)
-            {
-                return new ApiResponse(false, $"Account with id '{id}' not found.");
-            }
-
-            var entityDto = entity.Adapt<AppUserDto>();
-
-            return new ApiResponse(true, entityDto);
-        }
-
-        public async Task<ApiResponse> GetByNameAsync(string name, CancellationToken cancellationToken = default)
-        {
-            var entity = await _hrRepositoryManager.AccountRepository.GetByNameAsync(name, cancellationToken);
-
-            if (entity is null)
-            {
-                return new ApiResponse(false, $"Account with name '{name}' not found.");
-            }
-
-            var entityDto = entity.Adapt<AppUserDto>();
-
-            return new ApiResponse(true, entityDto);
-        }
     }
 }

@@ -20,27 +20,31 @@ namespace Kemet.ERP.Services.Entity.HR
 
         public async Task<ApiResponse> GetAllAsync(int skip, int take, CancellationToken cancellationToken = default)
         {
-            var lst = _hrRepositoryManager.MemoryCacheRepository.Get<IEnumerable<Country>>(CacheServiceKeys.CountryList);
+            var lst =
+                _hrRepositoryManager.MemoryCacheRepository.Get<IEnumerable<Country>>(CacheServiceKeys.CountryList);
 
-            if (lst is null) lst = await SetCountryCache(cancellationToken);
+            if (lst is null)
+                lst = await SetCountryCache(cancellationToken);
 
-            var lstDto = lst.Adapt<IEnumerable<CountryDto>>();
+            var lstDto =
+                lst.Adapt<IEnumerable<CountryDto>>();
 
-            lstDto = lstDto.Skip(skip).Take(take);
+            lstDto =
+                lstDto.Skip(skip).Take(take);
 
             return new ApiResponse(true, lstDto);
         }
 
         public async Task<ApiResponse> GetByIdAsync(long id, CancellationToken cancellationToken = default)
         {
-            var entity = await _hrRepositoryManager.CountryRepository.GetByIdAsync(id, cancellationToken);
+            var entity =
+                await _hrRepositoryManager.CountryRepository.GetByIdAsync(id, cancellationToken);
 
             if (entity is null)
-            {
                 throw new EntityNotFoundException<Country>(id);
-            }
 
-            var entityDto = entity.Adapt<CountryDto>();
+            var entityDto =
+                entity.Adapt<CountryDto>();
 
             return new ApiResponse(true, entityDto);
         }
@@ -48,11 +52,13 @@ namespace Kemet.ERP.Services.Entity.HR
 
         public async Task<ApiResponse> CreateAsync(CountryDto request, CancellationToken cancellationToken = default)
         {
-            var entity = request.Adapt<Country>();
+            var entity =
+                request.Adapt<Country>();
 
             _hrRepositoryManager.CountryRepository.Create(entity);
 
-            var effectedRows = await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            var effectedRows =
+                await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulCreate);
@@ -62,11 +68,13 @@ namespace Kemet.ERP.Services.Entity.HR
 
         public async Task<ApiResponse> UpdateAsync(CountryDto request, CancellationToken cancellationToken = default)
         {
-            var entity = request.Adapt<Country>();
+            var entity =
+                request.Adapt<Country>();
 
             _hrRepositoryManager.CountryRepository.Update(entity);
 
-            var effectedRows = await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            var effectedRows =
+                await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulUpdate);
@@ -76,16 +84,16 @@ namespace Kemet.ERP.Services.Entity.HR
 
         public async Task<ApiResponse> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
-            var entity = await _hrRepositoryManager.CountryRepository.GetByIdAsync(id, cancellationToken);
+            var entity =
+                await _hrRepositoryManager.CountryRepository.GetByIdAsync(id, cancellationToken);
 
             if (entity is null)
-            {
                 throw new EntityNotFoundException<Country>(id);
-            }
 
             _hrRepositoryManager.CountryRepository.Delete(entity);
 
-            var effectedRows = await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            var effectedRows =
+                await _hrRepositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulDelete);
@@ -95,8 +103,11 @@ namespace Kemet.ERP.Services.Entity.HR
 
         private async Task<IEnumerable<Country>> SetCountryCache(CancellationToken cancellationToken)
         {
-            var lst = await _hrRepositoryManager.CountryRepository.GetAllAsync(0, 1000, cancellationToken);
+            var lst =
+                await _hrRepositoryManager.CountryRepository.GetAllAsync(0, 1000, cancellationToken);
+
             _hrRepositoryManager.MemoryCacheRepository.Set(CacheServiceKeys.CountryList, lst, TimeSpan.FromHours(1));
+
             return lst;
         }
     }

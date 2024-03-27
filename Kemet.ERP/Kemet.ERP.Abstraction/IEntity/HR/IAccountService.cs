@@ -5,10 +5,8 @@ namespace Kemet.ERP.Abstraction.IEntity.HR
 {
     public interface IAccountService
     {
-        Task<ApiResponse> GetAllAsync(int skip, int take, CancellationToken cancellationToken = default);
-        Task<ApiResponse> GetByIdAsync(string id, CancellationToken cancellationToken = default);
-        Task<ApiResponse> GetByNameAsync(string name, CancellationToken cancellationToken = default);
-        Task<ApiResponse> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
-        Task<ApiResponse> CreateAsync(CreateUserDto request, CancellationToken cancellationToken = default);
+        Task<ApiResponse> GetUsersAsync(int skip, int take, CancellationToken cancellationToken = default);
+        Task<ApiResponse> GetUserByIdAsync(string id, CancellationToken cancellationToken = default);
+        Task<ApiResponse> CreateUserAsync(CreateUserDto request, CancellationToken cancellationToken = default);
     }
 }
