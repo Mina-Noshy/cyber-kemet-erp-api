@@ -1,4 +1,5 @@
-﻿using Kemet.ERP.Domain.Entities.HR;
+﻿using Kemet.ERP.Domain.Entities.HR.Common;
+using Kemet.ERP.Domain.Entities.HR.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

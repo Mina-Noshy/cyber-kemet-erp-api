@@ -1,4 +1,4 @@
-﻿using Kemet.ERP.Contracts;
+﻿using Kemet.ERP.Contracts.Common;
 
 namespace Kemet.ERP.Abstraction.IShared
 {

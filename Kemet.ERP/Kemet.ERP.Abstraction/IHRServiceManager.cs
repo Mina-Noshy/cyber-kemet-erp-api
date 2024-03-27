@@ -1,4 +1,5 @@
-﻿using Kemet.ERP.Abstraction.IEntity.HR;
+﻿using Kemet.ERP.Abstraction.IEntity.HR.Common;
+using Kemet.ERP.Abstraction.IEntity.HR.Identity;
 using Kemet.ERP.Abstraction.IShared;
 
 namespace Kemet.ERP.Abstraction

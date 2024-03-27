@@ -1,4 +1,4 @@
-﻿using Kemet.ERP.Contracts;
+﻿using Kemet.ERP.Contracts.Common;
 using Kemet.ERP.Contracts.HttpResponse;
 
 namespace Kemet.ERP.Abstraction.IShared

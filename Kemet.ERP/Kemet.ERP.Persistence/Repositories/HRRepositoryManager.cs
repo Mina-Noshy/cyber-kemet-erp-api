@@ -1,9 +1,11 @@
-﻿using Kemet.ERP.Domain.Entities.HR;
+﻿using Kemet.ERP.Domain.Entities.HR.Identity;
 using Kemet.ERP.Domain.IRepositories;
-using Kemet.ERP.Domain.IRepositories.IEntity.HR;
+using Kemet.ERP.Domain.IRepositories.IEntity.HR.Common;
+using Kemet.ERP.Domain.IRepositories.IEntity.HR.Identity;
 using Kemet.ERP.Domain.IRepositories.IShared;
 using Kemet.ERP.Persistence.Contexts;
-using Kemet.ERP.Persistence.Repositories.Entity.HR;
+using Kemet.ERP.Persistence.Repositories.Entity.HR.Common;
+using Kemet.ERP.Persistence.Repositories.Entity.HR.Identity;
 using Kemet.ERP.Persistence.Repositories.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

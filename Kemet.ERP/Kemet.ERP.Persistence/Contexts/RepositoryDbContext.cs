@@ -1,4 +1,5 @@
-﻿using Kemet.ERP.Domain.Entities.HR;
+﻿using Kemet.ERP.Domain.Entities.HR.Common;
+using Kemet.ERP.Domain.Entities.HR.Identity;
 using Kemet.ERP.Shared.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -46,8 +47,10 @@ namespace Kemet.ERP.Persistence.Contexts
         }
 
 
+        #region HR Module
         public DbSet<Country> Countries { get; set; }
         public DbSet<Region> Regions { get; set; }
+        #endregion
 
     }
 }
