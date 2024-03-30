@@ -1,4 +1,4 @@
-﻿using Kemet.ERP.Contracts.HttpResponse;
+﻿using Kemet.ERP.Contracts.Response;
 using Kemet.ERP.Domain.Exceptions;
 using Serilog;
 using System.Text.Json;

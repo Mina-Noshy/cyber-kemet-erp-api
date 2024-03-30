@@ -1,6 +1,6 @@
 ﻿using Kemet.ERP.Abstraction;
 using Kemet.ERP.Api.Middleware;
-using Kemet.ERP.Contracts.HttpResponse;
+using Kemet.ERP.Contracts.Response;
 using Kemet.ERP.Domain.Entities.HR.Identity;
 using Kemet.ERP.Domain.IRepositories;
 using Kemet.ERP.Persistence.Contexts;

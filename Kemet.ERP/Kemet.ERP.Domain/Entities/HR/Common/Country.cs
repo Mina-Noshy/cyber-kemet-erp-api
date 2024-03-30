@@ -1,4 +1,6 @@
-﻿namespace Kemet.ERP.Domain.Entities.HR.Common
+﻿using Kemet.ERP.Domain.Entities.Common;
+
+namespace Kemet.ERP.Domain.Entities.HR.Common
 {
     public class Country : TEntity
     {

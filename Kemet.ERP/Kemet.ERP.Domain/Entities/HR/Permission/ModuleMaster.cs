@@ -1,4 +1,6 @@
-﻿namespace Kemet.ERP.Domain.Entities.HR.Permission
+﻿using Kemet.ERP.Domain.Entities.Common;
+
+namespace Kemet.ERP.Domain.Entities.HR.Permission
 {
     public class ModuleMaster : TEntity
     {

@@ -1,6 +1,5 @@
 ﻿using Kemet.ERP.Abstraction;
 using Kemet.ERP.Contracts.HR.Identity;
-using Kemet.ERP.Presentation.Controllers.Configurations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kemet.ERP.Presentation.Controllers.HR.Identity

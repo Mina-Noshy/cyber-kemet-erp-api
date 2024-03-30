@@ -1,4 +1,4 @@
-﻿using Kemet.ERP.Contracts.HttpResponse;
+﻿using Kemet.ERP.Contracts.Response;
 using Kemet.ERP.Shared.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;

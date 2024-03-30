@@ -1,7 +1,5 @@
 ﻿using Kemet.ERP.Abstraction;
-using Kemet.ERP.Contracts.Common;
 using Kemet.ERP.Contracts.HR.Common;
-using Kemet.ERP.Presentation.Controllers.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,30 +17,27 @@ namespace Kemet.ERP.Presentation.Controllers.HR.Common
 
 
 
-        [HttpGet("get-all/{countryId:long}")]
-        public async Task<IActionResult> GetAllAsync(long countryId, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _hrServiceManager.RegionService.GetAllAsync(countryId, cancellationToken));
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
+            => FormatHttpResponse(await _hrServiceManager.RegionService.GetAllAsync(cancellationToken));
 
-        [HttpPost("get-all")]
-        public async Task<IActionResult> GetAllAsync(PaginationDto request, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _hrServiceManager.RegionService.GetAllAsync(request.Skip, request.Take, cancellationToken));
-
-        [HttpGet("get/{id:long}")]
+        [HttpGet("{id:long}")]
         public async Task<IActionResult> GetByIdAsync(long id, CancellationToken cancellationToken)
             => FormatHttpResponse(await _hrServiceManager.RegionService.GetByIdAsync(id, cancellationToken));
 
+        [HttpGet("by-country/{countryId:long}")]
+        public async Task<IActionResult> GetAllByCountryIdAsync(long countryId, CancellationToken cancellationToken)
+            => FormatHttpResponse(await _hrServiceManager.RegionService.GetAllByCountryIdAsync(countryId, cancellationToken));
 
-
-
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateAsync(RegionDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _hrServiceManager.RegionService.CreateAsync(request, cancellationToken));
 
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync(RegionDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _hrServiceManager.RegionService.UpdateAsync(request, cancellationToken));
 
-        [HttpDelete("delete/{id:long}")]
+        [HttpDelete("{id:long}")]
         public async Task<IActionResult> DeleteAsync(long id, CancellationToken cancellationToken)
             => FormatHttpResponse(await _hrServiceManager.RegionService.DeleteAsync(id, cancellationToken));
 

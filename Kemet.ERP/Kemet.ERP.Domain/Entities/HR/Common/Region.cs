@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Kemet.ERP.Domain.Entities.Common;
 
 namespace Kemet.ERP.Domain.Entities.HR.Common
 {

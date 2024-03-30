@@ -1,6 +1,6 @@
-﻿using Kemet.ERP.Domain.IRepositories.IEntity.HR.Common;
-using Kemet.ERP.Domain.IRepositories.IEntity.HR.Identity;
-using Kemet.ERP.Domain.IRepositories.IShared;
+﻿using Kemet.ERP.Domain.IRepositories.Common;
+using Kemet.ERP.Domain.IRepositories.HR.Common;
+using Kemet.ERP.Domain.IRepositories.HR.Identity;
 
 namespace Kemet.ERP.Domain.IRepositories
 {

@@ -1,11 +1,11 @@
 ﻿using Kemet.ERP.Abstraction;
-using Kemet.ERP.Abstraction.IEntity.HR.Common;
-using Kemet.ERP.Abstraction.IEntity.HR.Identity;
-using Kemet.ERP.Abstraction.IShared;
+using Kemet.ERP.Abstraction.Common;
+using Kemet.ERP.Abstraction.HR.Common;
+using Kemet.ERP.Abstraction.HR.Identity;
 using Kemet.ERP.Domain.IRepositories;
-using Kemet.ERP.Services.Entity.HR.Common;
-using Kemet.ERP.Services.Entity.HR.Identity;
-using Kemet.ERP.Services.Shared;
+using Kemet.ERP.Services.Common;
+using Kemet.ERP.Services.HR.Common;
+using Kemet.ERP.Services.HR.Identity;
 
 namespace Kemet.ERP.Services
 {

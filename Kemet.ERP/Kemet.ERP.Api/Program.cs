@@ -1,7 +1,7 @@
 
 using Kemet.ERP.Api.Configurations;
 using Kemet.ERP.Api.ManageExtensions;
-using Kemet.ERP.Presentation.Common;
+using Kemet.ERP.Presentation.Logger;
 using Kemet.ERP.Shared.Utilities;
 using Serilog;
 

@@ -1,4 +1,4 @@
-﻿using Kemet.ERP.Domain.Entities;
+﻿using Kemet.ERP.Domain.Entities.Common;
 
 namespace Kemet.ERP.Domain.Exceptions
 {
