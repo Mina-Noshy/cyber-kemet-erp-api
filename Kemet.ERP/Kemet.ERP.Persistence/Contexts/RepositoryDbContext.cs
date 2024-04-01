@@ -1,6 +1,5 @@
-﻿using Kemet.ERP.Domain.Entities.HR.Common;
-using Kemet.ERP.Domain.Entities.HR.Identity;
-using Kemet.ERP.Domain.Entities.HR.Permission;
+﻿using Kemet.ERP.Domain.Entities.Common;
+using Kemet.ERP.Domain.Entities.Identity;
 using Kemet.ERP.Shared.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +15,7 @@ namespace Kemet.ERP.Persistence.Contexts
 
         public RepositoryDbContext(DbContextOptions<RepositoryDbContext> options, IHttpContextAccessor accessor) : base(options)
         {
-            // to change the db connection if the request has a db name is the request header
+            // to change the db connection if the request has a db name in header
             string newDbName = accessor?.HttpContext?.Items[HttpContextKeys.DB]?.ToString() ?? string.Empty;
             if (!string.IsNullOrEmpty(newDbName))
             {
@@ -51,8 +50,8 @@ namespace Kemet.ERP.Persistence.Contexts
         #region HR Module
 
         // Common
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<Region> Regions { get; set; }
+        public DbSet<CountryMaster> CountryMaster { get; set; }
+        public DbSet<RegionMaster> RegionMaster { get; set; }
 
         // Permission
         public DbSet<ModuleMaster> ModuleMaster { get; set; }

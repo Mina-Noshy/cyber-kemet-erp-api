@@ -3,7 +3,7 @@
 namespace Kemet.ERP.Presentation.Controllers
 {
     [Route("api/hr/[controller]")]
-    public class BaseHRController : BaseApiController
+    public class BaseHrController : BaseApiController
     {
 
     }

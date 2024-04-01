@@ -1,11 +1,19 @@
-﻿using Kemet.ERP.Abstraction;
+﻿using Kemet.ERP.Abstraction.App;
+using Kemet.ERP.Abstraction.Common;
+using Kemet.ERP.Abstraction.Identity;
 using Kemet.ERP.Api.Middleware;
 using Kemet.ERP.Contracts.Response;
-using Kemet.ERP.Domain.Entities.HR.Identity;
-using Kemet.ERP.Domain.IRepositories;
+using Kemet.ERP.Domain.Entities.Identity;
+using Kemet.ERP.Domain.IRepositories.App;
+using Kemet.ERP.Domain.IRepositories.Common;
+using Kemet.ERP.Domain.IRepositories.Identity;
 using Kemet.ERP.Persistence.Contexts;
-using Kemet.ERP.Persistence.Repositories;
-using Kemet.ERP.Services;
+using Kemet.ERP.Persistence.Repositories.App;
+using Kemet.ERP.Persistence.Repositories.Common;
+using Kemet.ERP.Persistence.Repositories.Identity;
+using Kemet.ERP.Services.App;
+using Kemet.ERP.Services.Common;
+using Kemet.ERP.Services.Identity;
 using Kemet.ERP.Shared.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -116,8 +124,17 @@ namespace Kemet.ERP.Api.ManageExtensions
                 .AddEntityFrameworkStores<RepositoryDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<IHRServiceManager, HRServiceManager>();
-            services.AddScoped<IHRRepositoryManager, HRRepositoryManager>();
+            // App
+            services.AddScoped<IAppRepositoryManager, AppRepositoryManager>();
+            services.AddScoped<IAppServiceManager, AppServiceManager>();
+
+            // Common
+            services.AddScoped<ICommonRepositoryManager, CommonRepositoryManager>();
+            services.AddScoped<ICommonServiceManager, CommonServiceManager>();
+
+            // Identity
+            services.AddScoped<IIdentityRepositoryManager, IdentityRepositoryManager>();
+            services.AddScoped<IIdentityServiceManager, IdentityServiceManager>();
 
 
 

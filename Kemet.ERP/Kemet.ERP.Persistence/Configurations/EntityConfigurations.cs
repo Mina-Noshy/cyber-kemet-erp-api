@@ -1,5 +1,5 @@
-﻿using Kemet.ERP.Domain.Entities.HR.Common;
-using Kemet.ERP.Domain.Entities.HR.Identity;
+﻿using Kemet.ERP.Domain.Entities.Common;
+using Kemet.ERP.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -43,9 +43,9 @@ namespace Kemet.ERP.Persistence.Configurations
         }
     }
 
-    internal sealed class CountryConfigurations : IEntityTypeConfiguration<Country>
+    internal sealed class CountryConfigurations : IEntityTypeConfiguration<CountryMaster>
     {
-        public void Configure(EntityTypeBuilder<Country> entity)
+        public void Configure(EntityTypeBuilder<CountryMaster> entity)
         {
             entity
                 .Ignore(x => x.CreatedBy)
@@ -54,9 +54,9 @@ namespace Kemet.ERP.Persistence.Configurations
 
     }
 
-    internal sealed class RegionConfigurations : IEntityTypeConfiguration<Region>
+    internal sealed class RegionConfigurations : IEntityTypeConfiguration<RegionMaster>
     {
-        public void Configure(EntityTypeBuilder<Region> entity)
+        public void Configure(EntityTypeBuilder<RegionMaster> entity)
         {
             entity
                 .Ignore(x => x.CreatedBy)

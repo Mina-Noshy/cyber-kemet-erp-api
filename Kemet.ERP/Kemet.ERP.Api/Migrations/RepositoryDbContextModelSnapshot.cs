@@ -22,7 +22,61 @@ namespace Kemet.ERP.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.AppUser", b =>
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Common.CountryMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ArName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhoneCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CountryMaster");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Common.RegionMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ArName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("CountryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EnName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("RegionMaster");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -99,9 +153,9 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1a2bdfec-6639-4e2c-93ee-301b796e1a3d",
+                            Id = "e16742f1-e982-4dad-8b24-295cbf858d48",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e71b66a1-3998-4fa0-96b6-55c8c1c48253",
+                            ConcurrencyStamp = "d1be02aa-f431-49e8-8ee9-3fbe860db906",
                             Email = "info@cyberkemet.com",
                             EmailConfirmed = true,
                             FirstName = "Cyber",
@@ -109,16 +163,16 @@ namespace Kemet.ERP.Api.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "INFO@CYBERKEMET.COM",
                             NormalizedUserName = "CYBER-KEMET",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEg2r41HRZtx77sD0vxH53uQm15+XGpQwdr0ZxmFGUBfybceyMNIYTV0Q/4by8XJSw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHh6w024WqYdVTaCvmdMhi/bgiFgFEAklyof3PL9XjS8gSyvzkIxVL7EmGVb3MGBkw==",
                             PhoneNumber = "01111257052",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "f7d2c894-ac9e-4b52-9422-4cfe9a982df6",
+                            SecurityStamp = "e5777fbc-f22b-4277-8b2b-adf064995278",
                             TwoFactorEnabled = false,
                             UserName = "cyber-kemet"
                         });
                 });
 
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.Country", b =>
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.MenuMaster", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,23 +184,32 @@ namespace Kemet.ERP.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("EnName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneCode")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShortName")
+                    b.Property<string>("Icon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("ModuleId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("MenuMaster");
                 });
 
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.Region", b =>
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.ModuleMaster", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -158,18 +221,108 @@ namespace Kemet.ERP.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CountryId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("EnName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CountryId");
+                    b.ToTable("ModuleMaster");
+                });
 
-                    b.ToTable("Regions");
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.PageMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ArName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EnName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("MenuId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("PageMaster");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.RolePageMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("Create")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Export")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("PageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Update")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PageId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePageMaster");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -305,9 +458,20 @@ namespace Kemet.ERP.Api.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.AppUser", b =>
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Common.RegionMaster", b =>
                 {
-                    b.OwnsMany("Kemet.ERP.Domain.Entities.HR.RefreshToken", "RefreshTokens", b1 =>
+                    b.HasOne("Kemet.ERP.Domain.Entities.Common.CountryMaster", "GetCountry")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GetCountry");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.AppUser", b =>
+                {
+                    b.OwnsMany("Kemet.ERP.Domain.Entities.Identity.RefreshToken", "RefreshTokens", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -345,15 +509,45 @@ namespace Kemet.ERP.Api.Migrations
                     b.Navigation("RefreshTokens");
                 });
 
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.Region", b =>
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.MenuMaster", b =>
                 {
-                    b.HasOne("Kemet.ERP.Domain.Entities.HR.Country", "GetCountry")
+                    b.HasOne("Kemet.ERP.Domain.Entities.Identity.ModuleMaster", "GetModule")
                         .WithMany()
-                        .HasForeignKey("CountryId")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("GetCountry");
+                    b.Navigation("GetModule");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.PageMaster", b =>
+                {
+                    b.HasOne("Kemet.ERP.Domain.Entities.Identity.MenuMaster", "GetMenu")
+                        .WithMany()
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GetMenu");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.RolePageMaster", b =>
+                {
+                    b.HasOne("Kemet.ERP.Domain.Entities.Identity.PageMaster", "GetPage")
+                        .WithMany()
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "GetRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GetPage");
+
+                    b.Navigation("GetRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -367,7 +561,7 @@ namespace Kemet.ERP.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Kemet.ERP.Domain.Entities.HR.AppUser", null)
+                    b.HasOne("Kemet.ERP.Domain.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -376,7 +570,7 @@ namespace Kemet.ERP.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Kemet.ERP.Domain.Entities.HR.AppUser", null)
+                    b.HasOne("Kemet.ERP.Domain.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -391,7 +585,7 @@ namespace Kemet.ERP.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Kemet.ERP.Domain.Entities.HR.AppUser", null)
+                    b.HasOne("Kemet.ERP.Domain.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -400,7 +594,7 @@ namespace Kemet.ERP.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Kemet.ERP.Domain.Entities.HR.AppUser", null)
+                    b.HasOne("Kemet.ERP.Domain.Entities.Identity.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

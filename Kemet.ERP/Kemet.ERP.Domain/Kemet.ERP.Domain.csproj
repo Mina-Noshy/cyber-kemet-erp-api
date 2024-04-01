@@ -14,4 +14,9 @@
     <ProjectReference Include="..\Kemet.ERP.Shared\Kemet.ERP.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\HR\" />
+    <Folder Include="IRepositories\HR\" />
+  </ItemGroup>
+
 </Project>
