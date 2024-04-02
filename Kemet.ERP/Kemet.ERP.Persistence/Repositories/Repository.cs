@@ -12,42 +12,120 @@ namespace Kemet.ERP.Persistence.Repositories
         public Repository(IMainDbContext context)
             => _context = context;
 
-        public async Task<T?> GetByIdAsync<T>(long id, CancellationToken cancellationToken = default, params string[] includeProperties) where T : TEntity
+        public async Task<T?> GetByIdAsync<T>(long id,
+            CancellationToken cancellationToken = default,
+            params string[] includeProperties) where T : TEntity
         {
             IQueryable<T> query = _context.Set<T>();
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
             return await query.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         }
 
-        public IQueryable<T> GetAll<T>(params string[] includeProperties) where T : TEntity
+        public IQueryable<T> GetAll<T>(Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
+            int? skip = null,
+            int? take = null,
+            params string[] includeProperties) where T : TEntity
         {
             IQueryable<T> query = _context.Set<T>();
-            return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-        }
 
-        public IQueryable<T> Find<T>(Expression<Func<T, bool>> predicate, params string[] includeProperties) where T : TEntity
-        {
-            IQueryable<T> query = _context.Set<T>().Where(predicate);
-            return includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync<T>(CancellationToken cancellationToken = default, params string[] includeProperties) where T : TEntity
-        {
-            IQueryable<T> query = _context.Set<T>();
+            // Include properties
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+
+            // Apply orderByExpression if provided
+            if (orderByExpression != null)
+                query = orderByExpression(query);
+
+            // Apply skip and take
+            if (skip != null)
+                query = query.Skip(skip.Value);
+
+            if (take != null)
+                query = query.Take(take.Value);
+
+            return query;
+        }
+
+        public IQueryable<T> Find<T>(Expression<Func<T, bool>> filterExpression,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
+            int? skip = null,
+            int? take = null,
+            params string[] includeProperties) where T : TEntity
+        {
+            IQueryable<T> query = _context.Set<T>().Where(filterExpression);
+
+            // Include properties
+            query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+
+            // Apply orderByExpression if provided
+            if (orderByExpression != null)
+                query = orderByExpression(query);
+
+            // Apply skip and take
+            if (skip != null)
+                query = query.Skip(skip.Value);
+
+            if (take != null)
+                query = query.Take(take.Value);
+
+            return query;
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync<T>(Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
+            int? skip = null,
+            int? take = null,
+            CancellationToken cancellationToken = default,
+            params string[] includeProperties) where T : TEntity
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            // Include properties
+            query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+
+            // Apply orderByExpression if provided
+            if (orderByExpression != null)
+                query = orderByExpression(query);
+
+            // Apply skip and take
+            if (skip != null)
+                query = query.Skip(skip.Value);
+
+            if (take != null)
+                query = query.Take(take.Value);
+
             return await query.ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<T>> FindAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, params string[] includeProperties) where T : TEntity
+        public async Task<IEnumerable<T>> FindAsync<T>(Expression<Func<T, bool>> filterExpression,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
+            int? skip = null,
+            int? take = null,
+            CancellationToken cancellationToken = default,
+            params string[] includeProperties) where T : TEntity
         {
-            IQueryable<T> query = _context.Set<T>().Where(predicate);
+            IQueryable<T> query = _context.Set<T>().Where(filterExpression);
+
+            // Include properties
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+
+            // Apply orderByExpression if provided
+            if (orderByExpression != null)
+                query = orderByExpression(query);
+
+            // Apply skip and take
+            if (skip != null)
+                query = query.Skip(skip.Value);
+
+            if (take != null)
+                query = query.Take(take.Value);
+
             return await query.ToListAsync(cancellationToken);
         }
 
-        public async Task<T?> SingleOrDefaultAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, params string[] includeProperties) where T : TEntity
+        public async Task<T?> SingleOrDefaultAsync<T>(Expression<Func<T, bool>> filterExpression,
+            CancellationToken cancellationToken = default,
+            params string[] includeProperties) where T : TEntity
         {
-            IQueryable<T> query = _context.Set<T>().Where(predicate);
+            IQueryable<T> query = _context.Set<T>().Where(filterExpression);
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
             return await query.SingleOrDefaultAsync(cancellationToken);
         }
@@ -57,7 +135,8 @@ namespace Kemet.ERP.Persistence.Repositories
             _context.Set<T>().Add(entity);
         }
 
-        public async void AddRangeAsync<T>(IEnumerable<T> entities, CancellationToken cancellationToken = default) where T : TEntity
+        public async void AddRangeAsync<T>(IEnumerable<T> entities,
+            CancellationToken cancellationToken = default) where T : TEntity
         {
             await _context.Set<T>().AddRangeAsync(entities, cancellationToken);
         }
@@ -82,14 +161,15 @@ namespace Kemet.ERP.Persistence.Repositories
             _context.Set<T>().RemoveRange(entities);
         }
 
-        public async Task<int> CountAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) where T : TEntity
+        public async Task<int> CountAsync<T>(Expression<Func<T, bool>> filterExpression,
+            CancellationToken cancellationToken = default) where T : TEntity
         {
-            return await _context.Set<T>().CountAsync(predicate, cancellationToken);
+            return await _context.Set<T>().CountAsync(filterExpression, cancellationToken);
         }
 
-        public async Task<bool> AnyAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) where T : TEntity
+        public async Task<bool> AnyAsync<T>(Expression<Func<T, bool>> filterExpression, CancellationToken cancellationToken = default) where T : TEntity
         {
-            return await _context.Set<T>().AnyAsync(predicate, cancellationToken);
+            return await _context.Set<T>().AnyAsync(filterExpression, cancellationToken);
         }
     }
 }

@@ -2,7 +2,6 @@
 using Kemet.ERP.Api;
 using Kemet.ERP.Api.Configurations;
 using Kemet.ERP.Persistence;
-using Kemet.ERP.Persistence.Contexts;
 using Kemet.ERP.Presentation.Logger;
 using Kemet.ERP.Services;
 using Kemet.ERP.Shared.Utilities;
@@ -34,7 +33,7 @@ try
 
     var app = builder.Build();
 
-    app.UseAppPipilines(app.Environment);
+    app.UsePipilines(app.Environment);
 
     app.Run();
 }

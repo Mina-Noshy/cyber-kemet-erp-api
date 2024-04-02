@@ -233,7 +233,7 @@ namespace Kemet.ERP.Api
 
 
 
-        public static IApplicationBuilder UseAppPipilines(this IApplicationBuilder app, IWebHostEnvironment env)
+        public static IApplicationBuilder UsePipilines(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.
             if (env.IsDevelopment())

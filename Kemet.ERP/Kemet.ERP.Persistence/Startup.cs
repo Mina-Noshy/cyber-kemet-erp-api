@@ -44,11 +44,6 @@ namespace Kemet.ERP.Persistence
 
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
-            // Repositories
-            services.AddScoped<IMainDbContext, MainDbContext>();
-            services.AddScoped<IDapperRepository, DapperRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IMemoryCacheRepository, MemoryCacheRepository>();
             services.AddScoped<IRequestHandlingRepository, RequestHandlingRepository>();

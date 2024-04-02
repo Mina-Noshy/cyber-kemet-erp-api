@@ -20,7 +20,10 @@ namespace Kemet.ERP.Services.Common
         public async Task<ApiResponse> GetAllByCountryIdAsync(long countryId, CancellationToken cancellationToken = default)
         {
             var lst =
-                await _unitOfWork.Repository().FindAsync<RegionMaster>(x => x.CountryId == countryId, cancellationToken); ;
+                await _unitOfWork.Repository().FindAsync<RegionMaster>(x =>
+                x.CountryId == countryId,
+                null, null, null,
+                cancellationToken);
 
             var lstDto =
                 lst.Adapt<IEnumerable<RegionMasterDto>>();
@@ -31,7 +34,7 @@ namespace Kemet.ERP.Services.Common
         public async Task<ApiResponse> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _unitOfWork.Repository().GetAllAsync<RegionMaster>(cancellationToken); ;
+                await _unitOfWork.Repository().GetAllAsync<RegionMaster>(null, null, null, cancellationToken);
 
             var lstDto =
                 lst.Adapt<IEnumerable<RegionMasterDto>>();

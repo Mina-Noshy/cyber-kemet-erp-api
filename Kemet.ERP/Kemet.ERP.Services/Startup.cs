@@ -12,8 +12,6 @@ namespace Kemet.ERP.Services
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-
-            // Services
             services.AddScoped<IMemoryCacheService, MemoryCacheService>();
             services.AddScoped<IRequestHandlingService, RequestHandlingService>();
 

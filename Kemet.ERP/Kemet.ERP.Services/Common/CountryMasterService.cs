@@ -103,7 +103,7 @@ namespace Kemet.ERP.Services.Common
         private async Task<IEnumerable<CountryMaster>> SetCountryCache(CancellationToken cancellationToken)
         {
             var lst =
-                await _unitOfWork.Repository().GetAllAsync<CountryMaster>(cancellationToken);
+                await _unitOfWork.Repository().GetAllAsync<CountryMaster>(null, null, null, cancellationToken);
 
             _cacheRepository.Set(CacheServiceKeys.CountryList, lst, TimeSpan.FromHours(1));
 
