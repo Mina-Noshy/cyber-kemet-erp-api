@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kemet.ERP.Persistence.Repositories.Identity
 {
-    internal class AuthRepository : IAuthRepository
+    public class AuthRepository : IAuthRepository
     {
-        private readonly RepositoryDbContext _dbContext;
+        private readonly MainDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public AuthRepository(RepositoryDbContext dbContext,
+        public AuthRepository(MainDbContext context,
                               UserManager<AppUser> userManager,
                               RoleManager<IdentityRole> roleManager)
-            => (_dbContext, _userManager, _roleManager) = (dbContext, userManager, roleManager);
+            => (_context, _userManager, _roleManager) = (context, userManager, roleManager);
 
 
 
@@ -46,7 +46,10 @@ namespace Kemet.ERP.Persistence.Repositories.Identity
             => await _userManager.GetRolesAsync(user);
 
         public void UpdateUser(AppUser user)
-            => _dbContext.Update(user);
+            => _context.Update(user);
+
+        public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
+            => await _context.SaveChangesAsync(cancellationToken);
 
     }
 }

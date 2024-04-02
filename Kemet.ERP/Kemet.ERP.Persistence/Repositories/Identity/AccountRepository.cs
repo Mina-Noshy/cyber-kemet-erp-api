@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kemet.ERP.Persistence.Repositories.Identity
 {
-    internal class AccountRepository : IAccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly UserManager<AppUser> _userManager;
         public AccountRepository(UserManager<AppUser> userManager)

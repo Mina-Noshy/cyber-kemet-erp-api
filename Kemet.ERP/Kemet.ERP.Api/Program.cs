@@ -1,7 +1,10 @@
 
+using Kemet.ERP.Api;
 using Kemet.ERP.Api.Configurations;
-using Kemet.ERP.Api.ManageExtensions;
+using Kemet.ERP.Persistence;
+using Kemet.ERP.Persistence.Contexts;
 using Kemet.ERP.Presentation.Logger;
+using Kemet.ERP.Services;
 using Kemet.ERP.Shared.Utilities;
 using Serilog;
 
@@ -17,8 +20,15 @@ try
     Log.Information("Starting web host");
 
     builder.Host.UseSerilog();
-    builder.Services.AddAppServices();
-
+    builder.Services.RegisterCommonServices();
+    builder.Services.RegisterContexts();
+    builder.Services.RegisterRepositories();
+    builder.Services.RegisterServices();
+    builder.Services.RegisterRateLimiter();
+    builder.Services.RegisterCors();
+    builder.Services.RegisterAuthentication();
+    builder.Services.RegisterCommonServices();
+    builder.Services.RegisterSwagger();
 
 
 

@@ -8,32 +8,32 @@ namespace Kemet.ERP.Presentation.Controllers.Common
     [Authorize]
     public class CountriesController : BaseCommonController
     {
-        private readonly ICommonServiceManager _serviceManager;
-        public CountriesController(ICommonServiceManager serviceManager)
-            => _serviceManager = serviceManager;
+        private readonly ICountryMasterService _service;
+        public CountriesController(ICountryMasterService service)
+            => _service = service;
 
 
 
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
-            => FormatHttpResponse(await _serviceManager.CountryMasterService.GetAllAsync(cancellationToken));
+            => FormatHttpResponse(await _service.GetAllAsync(cancellationToken));
 
         [HttpGet("{id:long}")]
         public async Task<IActionResult> GetByIdAsync(long id, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _serviceManager.CountryMasterService.GetByIdAsync(id, cancellationToken));
+            => FormatHttpResponse(await _service.GetByIdAsync(id, cancellationToken));
 
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CountryMasterDto request, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _serviceManager.CountryMasterService.CreateAsync(request, cancellationToken));
+            => FormatHttpResponse(await _service.CreateAsync(request, cancellationToken));
 
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(CountryMasterDto request, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _serviceManager.CountryMasterService.UpdateAsync(request, cancellationToken));
+            => FormatHttpResponse(await _service.UpdateAsync(request, cancellationToken));
 
         [HttpDelete("{id:long}")]
         public async Task<IActionResult> DeleteAsync(long id, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _serviceManager.CountryMasterService.DeleteAsync(id, cancellationToken));
+            => FormatHttpResponse(await _service.DeleteAsync(id, cancellationToken));
 
     }
 }

@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\HR\" />
-    <Folder Include="IRepositories\HR\" />
   </ItemGroup>
 
 </Project>

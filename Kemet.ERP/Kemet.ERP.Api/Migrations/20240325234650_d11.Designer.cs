@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kemet.ERP.Api.Migrations
 {
-    [DbContext(typeof(RepositoryDbContext))]
+    [DbContext(typeof(MainDbContext))]
     [Migration("20240325234650_d11")]
     partial class d11
     {

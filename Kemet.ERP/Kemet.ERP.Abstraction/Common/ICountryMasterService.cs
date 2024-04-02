@@ -1,5 +1,4 @@
-﻿using Kemet.ERP.Abstraction.Shared;
-using Kemet.ERP.Contracts.Common;
+﻿using Kemet.ERP.Contracts.Common;
 
 namespace Kemet.ERP.Abstraction.Common
 {

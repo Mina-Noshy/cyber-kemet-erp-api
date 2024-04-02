@@ -3,23 +3,24 @@ using Kemet.ERP.Contracts.Common;
 using Kemet.ERP.Contracts.Response;
 using Kemet.ERP.Domain.Entities.Common;
 using Kemet.ERP.Domain.Exceptions;
-using Kemet.ERP.Domain.IRepositories.Common;
+using Kemet.ERP.Domain.IRepositories;
 using Mapster;
 
 namespace Kemet.ERP.Services.Common
 {
-    internal class RegionMasterService : IRegionMasterService
+    public class RegionMasterService : IRegionMasterService
     {
-        private readonly ICommonRepositoryManager _repositoryManager;
-        public RegionMasterService(ICommonRepositoryManager repositoryManager)
-            => _repositoryManager = repositoryManager;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public RegionMasterService(IUnitOfWork unitOfWork)
+            => _unitOfWork = unitOfWork;
 
 
 
-        public async Task<ApiResponse> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> GetAllByCountryIdAsync(long countryId, CancellationToken cancellationToken = default)
         {
             var lst =
-                await _repositoryManager.RegionMasterRepository.GetAllAsync(cancellationToken);
+                await _unitOfWork.Repository().FindAsync<RegionMaster>(x => x.CountryId == countryId, cancellationToken); ;
 
             var lstDto =
                 lst.Adapt<IEnumerable<RegionMasterDto>>();
@@ -27,10 +28,10 @@ namespace Kemet.ERP.Services.Common
             return new ApiResponse(true, lstDto);
         }
 
-        public async Task<ApiResponse> GetAllByCountryIdAsync(long countryId, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _repositoryManager.RegionMasterRepository.GetAllByCountryIdAsync(countryId, cancellationToken);
+                await _unitOfWork.Repository().GetAllAsync<RegionMaster>(cancellationToken); ;
 
             var lstDto =
                 lst.Adapt<IEnumerable<RegionMasterDto>>();
@@ -41,7 +42,7 @@ namespace Kemet.ERP.Services.Common
         public async Task<ApiResponse> GetByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _repositoryManager.RegionMasterRepository.GetByIdAsync(id, cancellationToken);
+                await _unitOfWork.Repository().GetByIdAsync<RegionMaster>(id, cancellationToken);
 
             if (entity is null)
                 throw new EntityNotFoundException<RegionMaster>(id);
@@ -52,15 +53,16 @@ namespace Kemet.ERP.Services.Common
             return new ApiResponse(true, entityDto);
         }
 
+
         public async Task<ApiResponse> CreateAsync(RegionMasterDto request, CancellationToken cancellationToken = default)
         {
             var entity =
                 request.Adapt<RegionMaster>();
 
-            _repositoryManager.RegionMasterRepository.Create(entity);
+            _unitOfWork.Repository().Add<RegionMaster>(entity);
 
             var effectedRows =
-                await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulCreate);
@@ -73,10 +75,10 @@ namespace Kemet.ERP.Services.Common
             var entity =
                 request.Adapt<RegionMaster>();
 
-            _repositoryManager.RegionMasterRepository.Update(entity);
+            _unitOfWork.Repository().Update<RegionMaster>(entity);
 
             var effectedRows =
-                await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulUpdate);
@@ -87,20 +89,21 @@ namespace Kemet.ERP.Services.Common
         public async Task<ApiResponse> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _repositoryManager.RegionMasterRepository.GetByIdAsync(id, cancellationToken);
+                await _unitOfWork.Repository().GetByIdAsync<RegionMaster>(id, cancellationToken);
 
             if (entity is null)
                 throw new EntityNotFoundException<RegionMaster>(id);
 
-            _repositoryManager.RegionMasterRepository.Delete(entity);
+            _unitOfWork.Repository().Remove<RegionMaster>(entity);
 
             var effectedRows =
-                await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+                await _unitOfWork.CommitAsync(cancellationToken);
 
             if (effectedRows > 0)
                 return new ApiResponse(true, ApiMessage.SuccessfulDelete);
 
             return new ApiResponse(false, ApiMessage.FailedDelete);
         }
+
     }
 }

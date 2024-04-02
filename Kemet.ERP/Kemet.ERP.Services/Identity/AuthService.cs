@@ -13,36 +13,37 @@ using System.Text;
 
 namespace Kemet.ERP.Services.Identity
 {
-    internal class AuthService : IAuthService
+    public class AuthService : IAuthService
     {
-        private readonly IIdentityRepositoryManager _repositoryManager;
-        public AuthService(IIdentityRepositoryManager repositoryManager)
-            => _repositoryManager = repositoryManager;
+        private readonly IAuthRepository _authRepository;
+        private readonly IAccountRepository _accountRepository;
 
+        public AuthService(IAuthRepository authRepository, IAccountRepository accountRepository)
+            => (_authRepository, _accountRepository) = (authRepository, accountRepository);
 
 
         public async Task<ApiResponse> AddUserRoleAsync(UserToRoleDto request, CancellationToken cancellationToken = default)
         {
             var user =
-                await _repositoryManager.AccountRepository.GetUserByIdAsync(request.UserId, cancellationToken);
+                await _accountRepository.GetUserByIdAsync(request.UserId, cancellationToken);
 
             if (user is null)
                 return new ApiResponse(false, $"User with ID '{request.UserId}' was not found.");
 
             var role =
-                await _repositoryManager.AuthRepository.GetRoleByNameAsync(request.Role, cancellationToken);
+                await _authRepository.GetRoleByNameAsync(request.Role, cancellationToken);
 
             if (role is null)
                 return new ApiResponse(false, $"Role with name '{request.Role}' was not found.");
 
             var userRoles =
-                await _repositoryManager.AuthRepository.GetUserRolesAsync(user);
+                await _authRepository.GetUserRolesAsync(user);
 
             if (userRoles != null && userRoles.Any(x => x == request.Role))
                 return new ApiResponse(false, $"Role with name '{request.Role}' is already assigned to the user.");
 
             var result =
-                await _repositoryManager.AuthRepository.AddUserRoleAsync(user, request.Role, cancellationToken);
+                await _authRepository.AddUserRoleAsync(user, request.Role, cancellationToken);
 
             if (result.Succeeded)
                 return new ApiResponse(true, $"Role '{request.Role}' has been successfully added to the user '{user.UserName}'.");
@@ -53,25 +54,25 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> RemoveUserRoleAsync(UserToRoleDto request, CancellationToken cancellationToken = default)
         {
             var user =
-                await _repositoryManager.AccountRepository.GetUserByIdAsync(request.UserId, cancellationToken);
+                await _accountRepository.GetUserByIdAsync(request.UserId, cancellationToken);
 
             if (user is null)
                 return new ApiResponse(false, $"User with ID '{request.UserId}' was not found.");
 
             var role =
-                await _repositoryManager.AuthRepository.GetRoleByNameAsync(request.Role, cancellationToken);
+                await _authRepository.GetRoleByNameAsync(request.Role, cancellationToken);
 
             if (role is null)
                 return new ApiResponse(false, $"Role with name '{request.Role}' was not found.");
 
             var userRoles =
-                await _repositoryManager.AuthRepository.GetUserRolesAsync(user);
+                await _authRepository.GetUserRolesAsync(user);
 
             if (userRoles is null || userRoles.Any(x => x == request.Role) == false)
                 return new ApiResponse(false, $"Role with name '{request.Role}' has not been assigned to the user before.");
 
             var result =
-                await _repositoryManager.AuthRepository.RemoveUserRoleAsync(user, request.Role, cancellationToken);
+                await _authRepository.RemoveUserRoleAsync(user, request.Role, cancellationToken);
 
             if (result.Succeeded)
                 return new ApiResponse(true, $"Role '{request.Role}' has been successfully removed from the user '{user.UserName}'.");
@@ -82,13 +83,13 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> CreateRoleAsync(string role, CancellationToken cancellationToken = default)
         {
             var roleEntity =
-                await _repositoryManager.AuthRepository.GetRoleByNameAsync(role, cancellationToken);
+                await _authRepository.GetRoleByNameAsync(role, cancellationToken);
 
             if (roleEntity != null)
                 return new ApiResponse(false, $"Role with name '{role}' already exist.");
 
             var result =
-                await _repositoryManager.AuthRepository.CreateRoleAsync(role, cancellationToken);
+                await _authRepository.CreateRoleAsync(role, cancellationToken);
 
             if (result.Succeeded)
                 return new ApiResponse(true, $"Role '{role}' has been created successfully.");
@@ -99,13 +100,13 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> DeleteRoleAsync(string role, CancellationToken cancellationToken = default)
         {
             var roleEntity =
-                await _repositoryManager.AuthRepository.GetRoleByNameAsync(role, cancellationToken);
+                await _authRepository.GetRoleByNameAsync(role, cancellationToken);
 
             if (roleEntity is null)
                 return new ApiResponse(false, $"Role with name '{role}' was not found.");
 
             var result =
-                await _repositoryManager.AuthRepository.DeleteRoleAsync(role, cancellationToken);
+                await _authRepository.DeleteRoleAsync(role, cancellationToken);
 
             if (result.Succeeded)
                 return new ApiResponse(true, $"Role '{role}' has been deleted successfully.");
@@ -116,7 +117,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse?> GetRoleByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _repositoryManager.AuthRepository.GetRoleByIdAsync(id, cancellationToken);
+                await _authRepository.GetRoleByIdAsync(id, cancellationToken);
 
             if (entity is null)
                 return new ApiResponse(false, $"Role with ID '{id}' was not found.");
@@ -130,7 +131,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> GetRolesAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _repositoryManager.AuthRepository.GetRolesAsync(cancellationToken);
+                await _authRepository.GetRolesAsync(cancellationToken);
 
             var lstDto =
                 lst.Adapt<IEnumerable<RoleDto>>();
@@ -141,7 +142,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> RefreshTokenAsync(TokenDto request, CancellationToken cancellationToken = default)
         {
             var user =
-                await _repositoryManager.AccountRepository.GetUserByTokenAsync(request.Token, cancellationToken);
+                await _accountRepository.GetUserByTokenAsync(request.Token, cancellationToken);
 
             if (user is null)
                 return new ApiResponse(false, "Invalid token.");
@@ -163,7 +164,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> RevokeTokenAsync(TokenDto request, CancellationToken cancellationToken = default)
         {
             var user =
-                await _repositoryManager.AccountRepository.GetUserByTokenAsync(request.Token, cancellationToken);
+                await _accountRepository.GetUserByTokenAsync(request.Token, cancellationToken);
 
             if (user is null)
                 return new ApiResponse(false, "Invalid token.");
@@ -176,9 +177,9 @@ namespace Kemet.ERP.Services.Identity
 
             refreshToken.RevokedOn = DateTime.Now;
 
-            _repositoryManager.AuthRepository.UpdateUser(user);
+            _authRepository.UpdateUser(user);
 
-            await _repositoryManager.UnitOfWork.SaveChangesAsync();
+            await _authRepository.CommitAsync(cancellationToken);
 
             return new ApiResponse(true, "Token revoked successfully.");
         }
@@ -186,16 +187,16 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> GetTokenAsync(GetTokenDto request, CancellationToken cancellationToken = default)
         {
             var user =
-                await _repositoryManager.AccountRepository.GetUserByNameAsync(request.UserName, cancellationToken);
+                await _accountRepository.GetUserByNameAsync(request.UserName, cancellationToken);
 
             if (user is null)
-                user = await _repositoryManager.AccountRepository.GetUserByEmailAsync(request.UserName, cancellationToken);
+                user = await _accountRepository.GetUserByEmailAsync(request.UserName, cancellationToken);
 
             if (user is null)
                 return new ApiResponse(false, "Invalid username or password.");
 
             var isAuthorized =
-                await _repositoryManager.AuthRepository.CheckPasswordAsync(user, request.Password, cancellationToken);
+                await _authRepository.CheckPasswordAsync(user, request.Password, cancellationToken);
 
             if (isAuthorized == false)
                 return new ApiResponse(false, "Invalid username or password.");
@@ -269,7 +270,7 @@ namespace Kemet.ERP.Services.Identity
             };
 
             var roles =
-                (await _repositoryManager.AuthRepository.GetUserRolesAsync(user, cancellationToken))?.ToList();
+                (await _authRepository.GetUserRolesAsync(user, cancellationToken))?.ToList();
 
             var userInfo = new UserInfoDto
             {
@@ -285,8 +286,8 @@ namespace Kemet.ERP.Services.Identity
             };
 
             user.RefreshTokens.Add(refreshToken);
-            _repositoryManager.AuthRepository.UpdateUser(user);
-            await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            _authRepository.UpdateUser(user);
+            await _authRepository.CommitAsync(cancellationToken);
 
             return userInfo;
         }

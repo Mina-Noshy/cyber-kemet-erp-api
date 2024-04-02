@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Kemet.ERP.Persistence.Repositories.App
 {
-    internal class RequestHandlingRepository : IRequestHandlingRepository
+    public class RequestHandlingRepository : IRequestHandlingRepository
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

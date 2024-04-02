@@ -19,5 +19,7 @@ namespace Kemet.ERP.Domain.IRepositories.Identity
         Task<bool> CheckPasswordAsync(AppUser user, string password, CancellationToken cancellationToken = default);
         Task<IEnumerable<string>> GetUserRolesAsync(AppUser user, CancellationToken cancellationToken = default);
         void UpdateUser(AppUser user);
+
+        Task<int> CommitAsync(CancellationToken cancellationToken);
     }
 }

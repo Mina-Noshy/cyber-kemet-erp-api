@@ -3,24 +3,24 @@ using Kemet.ERP.Domain.IRepositories.App;
 
 namespace Kemet.ERP.Services.App
 {
-    internal class RequestHandlingService : IRequestHandlingService
+    public class RequestHandlingService : IRequestHandlingService
     {
-        private readonly IAppRepositoryManager _repositoryManager;
+        private readonly IRequestHandlingRepository _repository;
 
-        public RequestHandlingService(IAppRepositoryManager repositoryManager)
-            => _repositoryManager = repositoryManager;
+        public RequestHandlingService(IRequestHandlingRepository repository)
+            => _repository = repository;
 
         public string GetDbName()
-            => _repositoryManager.RequestHandlingRepository.GetDbName();
+            => _repository.GetDbName();
 
         public string GetLang()
-            => _repositoryManager.RequestHandlingRepository.GetLang();
+            => _repository.GetLang();
 
         public string GetUserId()
-            => _repositoryManager.RequestHandlingRepository.GetUserId();
+            => _repository.GetUserId();
 
         public string GetUserIP()
-            => _repositoryManager.RequestHandlingRepository.GetUserIP();
+            => _repository.GetUserIP();
 
     }
 }

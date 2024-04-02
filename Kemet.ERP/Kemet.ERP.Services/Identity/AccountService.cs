@@ -7,11 +7,11 @@ using Mapster;
 
 namespace Kemet.ERP.Services.Identity
 {
-    internal class AccountService : IAccountService
+    public class AccountService : IAccountService
     {
-        private readonly IIdentityRepositoryManager _repositoryManager;
-        public AccountService(IIdentityRepositoryManager repositoryManager)
-            => _repositoryManager = repositoryManager;
+        private readonly IAccountRepository _accountRepository;
+        public AccountService(IAccountRepository accountRepository)
+            => _accountRepository = accountRepository;
 
 
 
@@ -21,7 +21,7 @@ namespace Kemet.ERP.Services.Identity
                 request.Adapt<AppUser>();
 
             var user =
-                await _repositoryManager.AccountRepository.CreateUserAsync(entity, request.Password, cancellationToken);
+                await _accountRepository.CreateUserAsync(entity, request.Password, cancellationToken);
 
             if (user is null)
                 return new ApiResponse(false, "Failed to create the user. Please check your input and try again later");
@@ -32,7 +32,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> GetUsersAsync(int skip, int take, CancellationToken cancellationToken = default)
         {
             var lst =
-                await _repositoryManager.AccountRepository.GetUsersAsync(skip, take, cancellationToken);
+                await _accountRepository.GetUsersAsync(skip, take, cancellationToken);
 
             var lstDto =
                 lst.Adapt<IEnumerable<AppUserDto>>();
@@ -43,7 +43,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> GetUserByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _repositoryManager.AccountRepository.GetUserByIdAsync(id, cancellationToken);
+                await _accountRepository.GetUserByIdAsync(id, cancellationToken);
 
             if (entity is null)
                 return new ApiResponse(false, $"Account with ID '{id}' was not found.");
