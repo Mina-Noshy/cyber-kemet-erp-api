@@ -49,10 +49,7 @@ namespace Kemet.ERP.Persistence.Repositories
 
         public void BeginTransaction()
         {
-            if (_transaction is null)
-            {
-                _transaction = _db.Database.GetDbConnection().BeginTransaction();
-            }
+            _transaction = _db.Database.GetDbConnection().BeginTransaction();
         }
 
         public void CommitTransaction()

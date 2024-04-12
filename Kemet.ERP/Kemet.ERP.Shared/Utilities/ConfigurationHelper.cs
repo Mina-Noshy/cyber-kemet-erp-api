@@ -25,5 +25,12 @@ namespace Kemet.ERP.Shared.Utilities
 
         public static string GetRateLimiter(string key)
             => _configuration[$"RateLimiter:{key}"] ?? string.Empty;
+
+        public static string GetSMTP(string key)
+            => _configuration[$"SMTP:{key}"] ?? string.Empty;
+
+        public static string GetURL(string key)
+            => _configuration[$"URLs:{key}"] ?? string.Empty;
+
     }
 }

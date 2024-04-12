@@ -1,0 +1,11 @@
+{
+  "SMTP": {
+    "SenderEmail": "belsosn.ae@gmail.com",
+    "SenderPassword": "bigjxtznwrnkyrrd",
+    "SmtpHost": "smtp.gmail.com",
+    "Port": 587,
+    "EnableSsl": true
+
+  }
+
+}

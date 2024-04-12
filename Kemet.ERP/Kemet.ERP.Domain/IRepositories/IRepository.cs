@@ -37,9 +37,13 @@ namespace Kemet.ERP.Domain.IRepositories
             CancellationToken cancellationToken = default,
             params string[] includeProperties) where T : TEntity;
 
+        Task<T?> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> filterExpression,
+            CancellationToken cancellationToken = default,
+            params string[] includeProperties) where T : TEntity;
+
         void Add<T>(T entity) where T : TEntity;
 
-        void AddRangeAsync<T>(IEnumerable<T> entities,
+        Task AddRangeAsync<T>(IEnumerable<T> entities,
             CancellationToken cancellationToken = default) where T : TEntity;
 
         void Update<T>(T entity) where T : TEntity;

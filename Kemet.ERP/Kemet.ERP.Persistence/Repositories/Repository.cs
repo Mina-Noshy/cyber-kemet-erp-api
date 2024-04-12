@@ -130,12 +130,21 @@ namespace Kemet.ERP.Persistence.Repositories
             return await query.SingleOrDefaultAsync(cancellationToken);
         }
 
+        public async Task<T?> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> filterExpression,
+            CancellationToken cancellationToken = default,
+            params string[] includeProperties) where T : TEntity
+        {
+            IQueryable<T> query = _context.Set<T>().Where(filterExpression);
+            query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+            return await query.FirstOrDefaultAsync(cancellationToken);
+        }
+
         public void Add<T>(T entity) where T : TEntity
         {
             _context.Set<T>().Add(entity);
         }
 
-        public async void AddRangeAsync<T>(IEnumerable<T> entities,
+        public async Task AddRangeAsync<T>(IEnumerable<T> entities,
             CancellationToken cancellationToken = default) where T : TEntity
         {
             await _context.Set<T>().AddRangeAsync(entities, cancellationToken);

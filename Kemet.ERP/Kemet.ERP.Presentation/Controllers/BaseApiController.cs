@@ -8,6 +8,6 @@ namespace Kemet.ERP.Presentation.Controllers
     public class BaseApiController : ControllerBase
     {
         internal protected ActionResult FormatHttpResponse(ApiResponse response)
-            => response.status ? Ok(response) : BadRequest(response);
+            => Ok(response);
     }
 }

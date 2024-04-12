@@ -27,6 +27,12 @@
                     .AddJsonFile($"{configurationsDirectory}/ratelimiter.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"{configurationsDirectory}/ratelimiter.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
 
+                    .AddJsonFile($"{configurationsDirectory}/smtp.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"{configurationsDirectory}/smtp.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+
+                    .AddJsonFile($"{configurationsDirectory}/url.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"{configurationsDirectory}/url.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+
                     .AddEnvironmentVariables();
             });
 
