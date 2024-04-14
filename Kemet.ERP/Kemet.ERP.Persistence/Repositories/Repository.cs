@@ -12,6 +12,29 @@ namespace Kemet.ERP.Persistence.Repositories
         public Repository(IMainDbContext context)
             => _context = context;
 
+
+        public async Task<IEnumerable<object>> GetDynamicAsync<T>(Expression<Func<T, object>> selectionExpression,
+            Expression<Func<T, bool>>? filterExpression,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
+            CancellationToken cancellationToken = default) where T : TEntity
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            // Apply filterExpression if provided
+            if (filterExpression != null)
+                query = query.Where(filterExpression);
+
+            // Apply orderByExpression if provided
+            if (orderByExpression != null)
+                query = orderByExpression(query);
+
+            // Select only the required properties
+            var selectedQuery = query.Select(selectionExpression);
+
+            // Apply skip and take
+            return await selectedQuery.ToListAsync(cancellationToken);
+        }
+
         public async Task<T?> GetByIdAsync<T>(long id,
             CancellationToken cancellationToken = default,
             params string[] includeProperties) where T : TEntity
@@ -180,5 +203,6 @@ namespace Kemet.ERP.Persistence.Repositories
         {
             return await _context.Set<T>().AnyAsync(filterExpression, cancellationToken);
         }
+
     }
 }

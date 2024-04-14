@@ -6,5 +6,6 @@ namespace Kemet.ERP.Abstraction.Common
     public interface IRegionMasterService : ICRUDService<RegionMasterDto>
     {
         Task<ApiResponse> GetAllByCountryIdAsync(long countryId, CancellationToken cancellationToken = default);
+        Task<ApiResponse> GetLightAsync(long countryId, CancellationToken cancellationToken = default);
     }
 }

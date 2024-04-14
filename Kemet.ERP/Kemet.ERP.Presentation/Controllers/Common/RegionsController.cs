@@ -17,6 +17,10 @@ namespace Kemet.ERP.Presentation.Controllers.Common
 
 
 
+        [HttpGet("light/{countryId:long}")]
+        public async Task<IActionResult> GetLightAsync(long countryId, CancellationToken cancellationToken)
+            => FormatHttpResponse(await _service.GetLightAsync(countryId, cancellationToken));
+
         [HttpGet]
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.GetAllAsync(cancellationToken));

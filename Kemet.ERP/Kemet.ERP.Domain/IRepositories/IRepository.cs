@@ -5,6 +5,11 @@ namespace Kemet.ERP.Domain.IRepositories
 {
     public interface IRepository
     {
+        Task<IEnumerable<object>> GetDynamicAsync<T>(Expression<Func<T, object>> selectionExpression,
+            Expression<Func<T, bool>>? filterExpression,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
+            CancellationToken cancellationToken = default) where T : TEntity;
+
         Task<T?> GetByIdAsync<T>(long id,
             CancellationToken cancellationToken = default,
             params string[] includeProperties) where T : TEntity;

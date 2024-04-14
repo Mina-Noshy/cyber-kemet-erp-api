@@ -15,6 +15,10 @@ namespace Kemet.ERP.Presentation.Controllers.Common
 
 
 
+        [HttpGet("light")]
+        public async Task<IActionResult> GetLightAsync(CancellationToken cancellationToken)
+            => FormatHttpResponse(await _service.GetLightAsync(cancellationToken));
+
         [HttpGet]
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.GetAllAsync(cancellationToken));

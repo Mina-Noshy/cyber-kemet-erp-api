@@ -14,9 +14,12 @@ namespace Kemet.ERP.Services.Common
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMemoryCacheRepository _cacheRepository;
+        private readonly IRequestHandlingRepository _request;
 
-        public CountryMasterService(IUnitOfWork unitOfWork, IMemoryCacheRepository cacheRepository)
-            => (_unitOfWork, _cacheRepository) = (unitOfWork, cacheRepository);
+        public CountryMasterService(IUnitOfWork unitOfWork,
+            IMemoryCacheRepository cacheRepository,
+            IRequestHandlingRepository request)
+                => (_unitOfWork, _cacheRepository, _request) = (unitOfWork, cacheRepository, request);
 
 
 
@@ -48,6 +51,18 @@ namespace Kemet.ERP.Services.Common
             return new ApiResponse(true, entityDto);
         }
 
+        public async Task<ApiResponse> GetLightAsync(CancellationToken cancellationToken = default)
+        {
+            string lang = _request.GetLang();
+            var lst =
+                await _unitOfWork.Repository().GetDynamicAsync<CountryMaster>(x =>
+                new { Id = x.Id, Name = (lang == "ar") ? x.ArName : x.EnName },
+                null,
+                x => x.OrderBy(x => (lang == "ar") ? x.ArName : x.EnName),
+                cancellationToken);
+
+            return new ApiResponse(true, lst);
+        }
 
         public async Task<ApiResponse> CreateAsync(CountryMasterDto request, CancellationToken cancellationToken = default)
         {
