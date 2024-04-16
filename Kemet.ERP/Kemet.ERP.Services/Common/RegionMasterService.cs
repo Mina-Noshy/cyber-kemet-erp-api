@@ -113,8 +113,11 @@ namespace Kemet.ERP.Services.Common
             return new ApiResponse(false, ApiMessage.FailedCreate);
         }
 
-        public async Task<ApiResponse> UpdateAsync(RegionMasterDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> UpdateAsync(long id, RegionMasterDto request, CancellationToken cancellationToken = default)
         {
+            if (id != request.Id)
+                return new ApiResponse(false, ApiMessage.EntityIdMismatch);
+
             var entity =
                 request.Adapt<RegionMaster>();
 

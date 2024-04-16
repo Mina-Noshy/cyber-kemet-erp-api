@@ -11,7 +11,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="HR\" />
+    <Folder Include="HR\BenefitsAdministration\" />
+    <Folder Include="HR\EmployeeSelfService\" />
+    <Folder Include="HR\EmployeeWellness\" />
+    <Folder Include="HR\HrAnalytics\" />
+    <Folder Include="HR\HrDatabase\" />
+    <Folder Include="HR\leaveManagement\" />
+    <Folder Include="HR\MultiWorkforceManagement\" />
+    <Folder Include="HR\Onboarding\" />
+    <Folder Include="HR\Payroll\" />
+    <Folder Include="HR\PerformanceManagement\" />
+    <Folder Include="HR\Recruitment\" />
+    <Folder Include="HR\SuccessionPlanning\" />
+    <Folder Include="HR\TalentManagement\" />
+    <Folder Include="HR\TimeAndAttendance\" />
+    <Folder Include="HR\TrainingAndDevelopment\" />
+    <Folder Include="HR\WorkforceManagement\" />
   </ItemGroup>
 
 </Project>

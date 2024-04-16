@@ -17,7 +17,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\HR\" />
+    <Folder Include="Controllers\HR\BenefitsAdministration\" />
+    <Folder Include="Controllers\HR\EmployeeSelfService\" />
+    <Folder Include="Controllers\HR\EmployeeWellness\" />
+    <Folder Include="Controllers\HR\HrAnalytics\" />
+    <Folder Include="Controllers\HR\HrDatabase\" />
+    <Folder Include="Controllers\HR\leaveManagement\" />
+    <Folder Include="Controllers\HR\MultiWorkforceManagement\" />
+    <Folder Include="Controllers\HR\Onboarding\" />
+    <Folder Include="Controllers\HR\Payroll\" />
+    <Folder Include="Controllers\HR\PerformanceManagement\" />
+    <Folder Include="Controllers\HR\Recruitment\" />
+    <Folder Include="Controllers\HR\SuccessionPlanning\" />
+    <Folder Include="Controllers\HR\TalentManagement\" />
+    <Folder Include="Controllers\HR\TimeAndAttendance\" />
+    <Folder Include="Controllers\HR\TrainingAndDevelopment\" />
+    <Folder Include="Controllers\HR\WorkforceManagement\" />
   </ItemGroup>
 
 </Project>

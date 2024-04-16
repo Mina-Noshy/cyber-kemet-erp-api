@@ -1,7 +1,7 @@
 {
   "SMTP": {
-    "SenderEmail": "belsosn.ae@gmail.com",
-    "SenderPassword": "bigjxtznwrnkyrrd",
+    "SenderEmail": "info.cyberkemet@gmail.com",
+    "SenderPassword": "wrrtlnvzdoqxcauw",
     "SmtpHost": "smtp.gmail.com",
     "Port": 587,
     "EnableSsl": true

@@ -31,9 +31,9 @@ namespace Kemet.ERP.Presentation.Controllers.Common
         public async Task<IActionResult> CreateAsync(CountryMasterDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.CreateAsync(request, cancellationToken));
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync(CountryMasterDto request, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _service.UpdateAsync(request, cancellationToken));
+        [HttpPut("{id:long}")]
+        public async Task<IActionResult> UpdateAsync(long id, CountryMasterDto request, CancellationToken cancellationToken)
+            => FormatHttpResponse(await _service.UpdateAsync(id, request, cancellationToken));
 
         [HttpDelete("{id:long}")]
         public async Task<IActionResult> DeleteAsync(long id, CancellationToken cancellationToken)
