@@ -3,6 +3,8 @@
     public interface IUnitOfWork : IDisposable
     {
         IRepository Repository();
+        IDapperRepository Dapper();
+
         Task<int> CommitAsync(CancellationToken cancellationToken);
 
         Task BeginTransactionAsync(CancellationToken cancellationToken = default);

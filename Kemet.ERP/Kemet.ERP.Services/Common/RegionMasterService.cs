@@ -47,9 +47,9 @@ namespace Kemet.ERP.Services.Common
             string lang = _request.GetLang();
 
             var lst =
-                await _unitOfWork.Repository().GetDynamicAsync<RegionMaster>(x =>
-                new { Id = x.Id, Name = (lang == "ar") ? x.ArName : x.EnName },
+                await _unitOfWork.Repository().GetDynamicAsync<RegionMaster>(
                 x => x.CountryId == countryId,
+                x => new { Id = x.Id, Name = (lang == "ar") ? x.ArName : x.EnName },
                 x => x.OrderBy(x => (lang == "ar") ? x.ArName : x.EnName),
                 cancellationToken);
 

@@ -54,5 +54,26 @@ namespace Kemet.ERP.Services.Identity
             return new ApiResponse(true, entityDto);
         }
 
+        public async Task<ApiResponse> ConfirmEmailAsync(string userId, string token, CancellationToken cancellationToken = default)
+        {
+            var user =
+                await _accountRepository.ConfirmEmailAsync(userId, token, cancellationToken);
+
+            if (user is null)
+                return new ApiResponse(false, "We couldn't find an account associated with the provided email address. Please ensure you've entered the correct email address.");
+
+            return new ApiResponse(true, "Email confirmed successfully. You can now log in to your account.");
+        }
+
+        public async Task<ApiResponse> SendConfirmationEmailAsync(string email, CancellationToken cancellationToken = default)
+        {
+            var user =
+                await _accountRepository.SendConfirmationEmailAsync(email, cancellationToken);
+
+            if (user is null)
+                return new ApiResponse(false, "We couldn't find an account associated with the provided email address.");
+
+            return new ApiResponse(true, "Email sent, Please check your inbox");
+        }
     }
 }

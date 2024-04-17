@@ -32,5 +32,8 @@ namespace Kemet.ERP.Shared.Utilities
         public static string GetURL(string key)
             => _configuration[$"URLs:{key}"] ?? string.Empty;
 
+        public static string GetProfile(string key)
+            => _configuration[$"Profile:{key}"] ?? string.Empty;
+
     }
 }

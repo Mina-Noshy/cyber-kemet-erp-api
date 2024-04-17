@@ -13,8 +13,8 @@ namespace Kemet.ERP.Persistence.Repositories
             => _context = context;
 
 
-        public async Task<IEnumerable<object>> GetDynamicAsync<T>(Expression<Func<T, object>> selectionExpression,
-            Expression<Func<T, bool>>? filterExpression,
+        public async Task<IEnumerable<object>> GetDynamicAsync<T>(Expression<Func<T, bool>>? filterExpression,
+            Expression<Func<T, object>> selectionExpression,
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
             CancellationToken cancellationToken = default) where T : TEntity
         {

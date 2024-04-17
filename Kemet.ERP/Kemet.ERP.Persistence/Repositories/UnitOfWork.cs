@@ -7,12 +7,15 @@ namespace Kemet.ERP.Persistence.Repositories
     {
         private readonly IMainDbContext _context;
         private bool _disposed;
-
         public UnitOfWork(IMainDbContext context)
             => _context = context;
 
         public IRepository Repository()
             => new Repository(_context);
+
+        public IDapperRepository Dapper()
+            => new DapperRepository(_context);
+
 
         public async Task<int> CommitAsync(CancellationToken cancellationToken = default)
             => await _context.SaveChangesAsync(cancellationToken);
