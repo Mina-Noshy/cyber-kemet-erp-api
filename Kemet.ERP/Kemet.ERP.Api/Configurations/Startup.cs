@@ -36,6 +36,12 @@
                     .AddJsonFile($"{configurationsDirectory}/profile.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"{configurationsDirectory}/profile.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
 
+                    .AddJsonFile($"{configurationsDirectory}/en.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"{configurationsDirectory}/en.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+
+                    .AddJsonFile($"{configurationsDirectory}/ar.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"{configurationsDirectory}/ar.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+
                     .AddEnvironmentVariables();
             });
 

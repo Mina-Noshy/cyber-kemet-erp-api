@@ -147,6 +147,9 @@ namespace Kemet.ERP.Services.Identity
             if (user is null)
                 return new ApiResponse(false, "Invalid token.");
 
+            if (user.EmailConfirmed == false)
+                return new ApiResponse(false, "Please confirm your email before proceeding.");
+
             var refreshToken =
                 user.RefreshTokens.Single(t => t.Token == request.Token);
 
@@ -200,6 +203,9 @@ namespace Kemet.ERP.Services.Identity
 
             if (isAuthorized == false)
                 return new ApiResponse(false, "Invalid username or password.");
+
+            if (user.EmailConfirmed == false)
+                return new ApiResponse(false, "Please confirm your email before proceeding.");
 
             var userInfo =
                 await ConfigureAndGetUserInfo(user, cancellationToken);

@@ -35,7 +35,7 @@ namespace Kemet.ERP.Presentation.Controllers.Identity
             => FormatHttpResponse(await _service.ConfirmEmailAsync(userId, token, cancellationToken));
 
         [ApiKeyAuth]
-        [HttpGet("send-confirmation-email/{email}")]
+        [HttpPost("send-confirmation-email/{email}")]
         public async Task<IActionResult> SendConfirmationEmailAsync(string email, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.SendConfirmationEmailAsync(email, cancellationToken));
 

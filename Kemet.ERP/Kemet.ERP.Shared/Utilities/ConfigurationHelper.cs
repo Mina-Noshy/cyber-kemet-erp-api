@@ -10,6 +10,8 @@ namespace Kemet.ERP.Shared.Utilities
             _configuration = configuration;
         }
 
+        public static string Translate(string lang, string key)
+            => _configuration[$"{lang}:{key}"] ?? string.Empty;
 
         public static string GetDbConn(string connName)
             => _configuration[$"ConnectionStrings:{connName}"] ?? string.Empty;

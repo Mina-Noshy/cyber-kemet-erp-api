@@ -26,6 +26,8 @@ namespace Kemet.ERP.Services.Identity
             if (user is null)
                 return new ApiResponse(false, "Failed to create the user. Please check your input and try again later");
 
+            await SendConfirmationEmailAsync(request.Email);
+
             return new ApiResponse(true, "The user has been created successfully");
         }
 
@@ -71,9 +73,9 @@ namespace Kemet.ERP.Services.Identity
                 await _accountRepository.SendConfirmationEmailAsync(email, cancellationToken);
 
             if (user is null)
-                return new ApiResponse(false, "We couldn't find an account associated with the provided email address.");
+                return new ApiResponse(false, $"We couldn't find an account associated with the provided email address '{email}'.");
 
-            return new ApiResponse(true, "Email sent, Please check your inbox");
+            return new ApiResponse(true, "Confirmation email has been successfully dispatched, Please check your inbox");
         }
     }
 }
