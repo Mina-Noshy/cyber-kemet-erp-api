@@ -4,6 +4,8 @@ using Kemet.ERP.Persistence.Configurations;
 using Kemet.ERP.Shared.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Kemet.ERP.Persistence.Repositories.Identity
 {
@@ -48,7 +50,7 @@ namespace Kemet.ERP.Persistence.Repositories.Identity
             var user =
                 await _userManager.FindByIdAsync(userId);
 
-            if (user == null)
+            if (user is null)
                 return null;
 
             var result =
@@ -79,7 +81,9 @@ namespace Kemet.ERP.Persistence.Repositories.Identity
             var result =
                 await _userManager.CreateAsync(user);
 
-            await SendConfirmationEmail(user.Email);
+            // add user to default role
+            if (result.Succeeded)
+                result = await _userManager.AddToRoleAsync(user, "User");
 
             return
                 result.Succeeded ? user : null;
@@ -96,7 +100,7 @@ namespace Kemet.ERP.Persistence.Repositories.Identity
                 await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             var confirmationUrl =
-                ConfigurationHelper.GetURL("Api") + $"/api/identity/account/confirm-email?userId={user.Id}&token={token}";
+                BuildConfirmationCallbackUrl(user.Id, token);
 
             var appName =
                 ConfigurationHelper.GetProfile("AppName");
@@ -104,18 +108,56 @@ namespace Kemet.ERP.Persistence.Repositories.Identity
             var subject =
                 $"{appName}: Confirm your email";
 
-            var body = $@"Thank you for registering. 
-Please click the url below to confirm your email address:
-{confirmationUrl}
+            StringBuilder emailTemplateBuilder = new StringBuilder();
+            emailTemplateBuilder.AppendLine(@"<!DOCTYPE html>");
+            emailTemplateBuilder.AppendLine(@"<html lang=""en"">");
+            emailTemplateBuilder.AppendLine(@"<head>");
+            emailTemplateBuilder.AppendLine(@"<style>");
+            emailTemplateBuilder.AppendLine(@"body {");
+            emailTemplateBuilder.AppendLine(@"font-family: Arial, sans-serif;");
+            emailTemplateBuilder.AppendLine(@"margin: 0;");
+            emailTemplateBuilder.AppendLine(@"padding: 0;");
+            emailTemplateBuilder.AppendLine(@"}");
+            emailTemplateBuilder.AppendLine(@".container {");
+            emailTemplateBuilder.AppendLine(@"max-width: 600px;");
+            emailTemplateBuilder.AppendLine(@"margin: 20px auto;");
+            emailTemplateBuilder.AppendLine(@"padding: 20px;");
+            emailTemplateBuilder.AppendLine(@"text-align: center;");
+            emailTemplateBuilder.AppendLine(@"}");
+            emailTemplateBuilder.AppendLine(@".button {");
+            emailTemplateBuilder.AppendLine(@"display: inline-block;");
+            emailTemplateBuilder.AppendLine(@"padding: 10px 20px;");
+            emailTemplateBuilder.AppendLine(@"background-color: #007bff;");
+            emailTemplateBuilder.AppendLine(@"color: #fff;");
+            emailTemplateBuilder.AppendLine(@"text-decoration: none;");
+            emailTemplateBuilder.AppendLine(@"border-radius: 5px;}");
+            emailTemplateBuilder.AppendLine(@"</style>");
+            emailTemplateBuilder.AppendLine(@"</head>");
+            emailTemplateBuilder.AppendLine(@"<body>");
+            emailTemplateBuilder.AppendLine(@"<div class=""container"">");
+            emailTemplateBuilder.AppendLine($@"<h1>Confirm Your Email with {appName}</h1>");
+            emailTemplateBuilder.AppendLine(@"<p>Please click the button below to confirm your email address.</p>");
+            emailTemplateBuilder.AppendLine($@"<a href=""{confirmationUrl}"" class=""button"">Confirm Email</a>");
+            emailTemplateBuilder.AppendLine(@"</div>");
+            emailTemplateBuilder.AppendLine(@"</body>");
+            emailTemplateBuilder.AppendLine(@"</html>");
 
-{appName}
-";
+            string body = emailTemplateBuilder.ToString();
+
             var isSent =
-                EmailHelper.Send(email, subject, body);
+                EmailHelper.Send(email, subject, body, true);
 
             return
                 isSent ? user : null;
         }
+        private string BuildConfirmationCallbackUrl(string userId, string token)
+        {
+            var baseUrl = ConfigurationHelper.GetURL("Api");
+            var controllerUrl = "/api/identity/accounts/confirm-email";
 
+            var encodedToken = UrlEncoder.Default.Encode(token);
+
+            return $"{baseUrl}{controllerUrl}?userId={userId}&token={encodedToken}";
+        }
     }
 }

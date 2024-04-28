@@ -1,5 +1,4 @@
-﻿using Kemet.ERP.Domain.Entities.Common;
-using Kemet.ERP.Domain.Entities.Identity;
+﻿using Kemet.ERP.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -8,10 +7,38 @@ namespace Kemet.ERP.Persistence.Configurations
 {
     internal static class DbContextUtilities
     {
+        internal static string userId = Guid.NewGuid().ToString();
+        internal static string userRoleId = Guid.NewGuid().ToString();
+        internal static string hrAdminRoleId = Guid.NewGuid().ToString();
+
         internal static string HashPassword(AppUser user, string password)
         {
             var passwordHasher = new PasswordHasher<AppUser>();
             return passwordHasher.HashPassword(user, password);
+        }
+    }
+
+    internal sealed class IdentityRoleConfigurations : IEntityTypeConfiguration<IdentityRole>
+    {
+        public void Configure(EntityTypeBuilder<IdentityRole> entity)
+        {
+            var roles = new List<IdentityRole>()
+            {
+                new IdentityRole
+                {
+                    Id = DbContextUtilities.userRoleId,
+                    Name = "User",
+                    NormalizedName = "User".ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = DbContextUtilities.hrAdminRoleId,
+                    Name = "HR Admin",
+                    NormalizedName = "HR Admin".ToUpper()
+                }
+            };
+
+            entity.HasData(roles);
         }
     }
 
@@ -21,7 +48,7 @@ namespace Kemet.ERP.Persistence.Configurations
         {
             var user = new AppUser
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = DbContextUtilities.userId,
                 FirstName = "Cyber",
                 LastName = "Kemet",
 
@@ -43,25 +70,18 @@ namespace Kemet.ERP.Persistence.Configurations
         }
     }
 
-    internal sealed class CountryConfigurations : IEntityTypeConfiguration<CountryMaster>
+    internal sealed class IdentityUserRoleConfigurations : IEntityTypeConfiguration<IdentityUserRole<string>>
     {
-        public void Configure(EntityTypeBuilder<CountryMaster> entity)
+        public void Configure(EntityTypeBuilder<IdentityUserRole<string>> entity)
         {
-            entity
-                .Ignore(x => x.CreatedBy)
-                .Ignore(x => x.CreatedOn);
-        }
+            var userRole = new IdentityUserRole<string>
+            {
+                UserId = DbContextUtilities.userId,
+                RoleId = DbContextUtilities.hrAdminRoleId
+            };
 
+            entity.HasData(userRole);
+        }
     }
 
-    internal sealed class RegionConfigurations : IEntityTypeConfiguration<RegionMaster>
-    {
-        public void Configure(EntityTypeBuilder<RegionMaster> entity)
-        {
-            entity
-                .Ignore(x => x.CreatedBy)
-                .Ignore(x => x.CreatedOn);
-        }
-
-    }
 }

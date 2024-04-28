@@ -42,6 +42,7 @@ namespace Kemet.ERP.Persistence
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredUniqueChars = 0;
 
+                options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<MainDbContext>()

@@ -22,60 +22,6 @@ namespace Kemet.ERP.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Common.CountryMaster", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("ArName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EnName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PhoneCode")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CountryMaster");
-                });
-
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Common.RegionMaster", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("ArName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("CountryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("EnName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("RegionMaster");
-                });
-
             modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -153,9 +99,9 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e16742f1-e982-4dad-8b24-295cbf858d48",
+                            Id = "7d595ffd-0f5a-40c0-900a-0789b1b628e7",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1be02aa-f431-49e8-8ee9-3fbe860db906",
+                            ConcurrencyStamp = "3118fcac-3226-489b-a965-46ab5e94e449",
                             Email = "info@cyberkemet.com",
                             EmailConfirmed = true,
                             FirstName = "Cyber",
@@ -163,10 +109,10 @@ namespace Kemet.ERP.Api.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "INFO@CYBERKEMET.COM",
                             NormalizedUserName = "CYBER-KEMET",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHh6w024WqYdVTaCvmdMhi/bgiFgFEAklyof3PL9XjS8gSyvzkIxVL7EmGVb3MGBkw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAe5EmnWEQsT7PcOgzQhfM4NAe/KU2h08gri70gC3ZUG47na4J61sMVAfjV2eNuKSA==",
                             PhoneNumber = "01111257052",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "e5777fbc-f22b-4277-8b2b-adf064995278",
+                            SecurityStamp = "e1ba7a25-7046-4734-b4cb-113f4f0a26d3",
                             TwoFactorEnabled = false,
                             UserName = "cyber-kemet"
                         });
@@ -184,13 +130,6 @@ namespace Kemet.ERP.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("EnName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -198,6 +137,9 @@ namespace Kemet.ERP.Api.Migrations
                     b.Property<string>("Icon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<long>("ModuleId")
                         .HasColumnType("bigint");
@@ -221,13 +163,6 @@ namespace Kemet.ERP.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("EnName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -235,6 +170,9 @@ namespace Kemet.ERP.Api.Migrations
                     b.Property<string>("Icon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -253,13 +191,6 @@ namespace Kemet.ERP.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("EnName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -267,6 +198,9 @@ namespace Kemet.ERP.Api.Migrations
                     b.Property<string>("Icon")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<long>("MenuId")
                         .HasColumnType("bigint");
@@ -293,17 +227,13 @@ namespace Kemet.ERP.Api.Migrations
                     b.Property<bool>("Create")
                         .HasColumnType("bit");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("Delete")
                         .HasColumnType("bit");
 
                     b.Property<bool>("Export")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<long>("PageId")
@@ -323,6 +253,59 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePageMaster");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Master.CityMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CountryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("RegionMaster");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Master.CountryMaster", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<bool?>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CountryMaster");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -350,6 +333,20 @@ namespace Kemet.ERP.Api.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("RoleMaster", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "fc2811d5-967e-465f-9889-caf1bb89aff5",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "f9cefeee-5e28-4671-a0ea-79455c1c2ac3",
+                            Name = "HR Admin",
+                            NormalizedName = "HR ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -437,6 +434,13 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoleMaster", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "7d595ffd-0f5a-40c0-900a-0789b1b628e7",
+                            RoleId = "f9cefeee-5e28-4671-a0ea-79455c1c2ac3"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -456,17 +460,6 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Common.RegionMaster", b =>
-                {
-                    b.HasOne("Kemet.ERP.Domain.Entities.Common.CountryMaster", "GetCountry")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GetCountry");
                 });
 
             modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.AppUser", b =>
@@ -548,6 +541,17 @@ namespace Kemet.ERP.Api.Migrations
                     b.Navigation("GetPage");
 
                     b.Navigation("GetRole");
+                });
+
+            modelBuilder.Entity("Kemet.ERP.Domain.Entities.Master.CityMaster", b =>
+                {
+                    b.HasOne("Kemet.ERP.Domain.Entities.Master.CountryMaster", "GetCountry")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GetCountry");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

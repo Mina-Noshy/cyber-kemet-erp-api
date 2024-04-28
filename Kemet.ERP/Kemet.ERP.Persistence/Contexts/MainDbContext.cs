@@ -1,5 +1,5 @@
-﻿using Kemet.ERP.Domain.Entities.Common;
-using Kemet.ERP.Domain.Entities.Identity;
+﻿using Kemet.ERP.Domain.Entities.Identity;
+using Kemet.ERP.Domain.Entities.Master;
 using Kemet.ERP.Domain.Entities.Shared;
 using Kemet.ERP.Shared.Constants;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Linq.Expressions;
 
 namespace Kemet.ERP.Persistence.Contexts
 {
@@ -31,7 +32,7 @@ namespace Kemet.ERP.Persistence.Contexts
             foreach (var item in ChangeTracker.Entries<TEntity>().AsEnumerable())
             {
                 //Auto Timestamp
-                item.Entity.CreatedOn = DateTime.Now;
+                //item.Entity.CreatedOn = DateTime.Now;
             }
             return base.SaveChangesAsync(cancellationToken);
         }
@@ -53,6 +54,7 @@ namespace Kemet.ERP.Persistence.Contexts
 
             // Apply all entities configuration
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbContext).Assembly);
+
         }
 
 
@@ -60,7 +62,7 @@ namespace Kemet.ERP.Persistence.Contexts
 
         // Common
         public DbSet<CountryMaster> CountryMaster { get; set; }
-        public DbSet<RegionMaster> RegionMaster { get; set; }
+        public DbSet<CityMaster> RegionMaster { get; set; }
 
         // Permission
         public DbSet<ModuleMaster> ModuleMaster { get; set; }

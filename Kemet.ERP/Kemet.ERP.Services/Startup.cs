@@ -1,9 +1,9 @@
 ﻿using Kemet.ERP.Abstraction.App;
-using Kemet.ERP.Abstraction.Common;
 using Kemet.ERP.Abstraction.Identity;
+using Kemet.ERP.Abstraction.Master;
 using Kemet.ERP.Services.App;
-using Kemet.ERP.Services.Common;
 using Kemet.ERP.Services.Identity;
+using Kemet.ERP.Services.Master;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Kemet.ERP.Services
@@ -19,7 +19,7 @@ namespace Kemet.ERP.Services
             services.AddScoped<IAccountService, AccountService>();
 
             services.AddScoped<ICountryMasterService, CountryMasterService>();
-            services.AddScoped<IRegionMasterService, RegionMasterService>();
+            services.AddScoped<ICityMasterService, CityMasterService>();
 
             return services;
         }

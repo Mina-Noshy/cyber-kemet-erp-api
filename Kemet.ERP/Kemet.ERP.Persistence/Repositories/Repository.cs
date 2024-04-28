@@ -24,6 +24,9 @@ namespace Kemet.ERP.Persistence.Repositories
             if (filterExpression != null)
                 query = query.Where(filterExpression);
 
+            // Apply additional conditions for IsDeleted
+            query = query.Where(x => x.IsDeleted == false);
+
             // Apply orderByExpression if provided
             if (orderByExpression != null)
                 query = orderByExpression(query);
@@ -31,7 +34,6 @@ namespace Kemet.ERP.Persistence.Repositories
             // Select only the required properties
             var selectedQuery = query.Select(selectionExpression);
 
-            // Apply skip and take
             return await selectedQuery.ToListAsync(cancellationToken);
         }
 
@@ -41,7 +43,7 @@ namespace Kemet.ERP.Persistence.Repositories
         {
             IQueryable<T> query = _context.Set<T>();
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
-            return await query.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            return await query.FirstOrDefaultAsync(e => e.Id == id && e.IsDeleted == false, cancellationToken);
         }
 
         public IQueryable<T> GetAll<T>(Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
@@ -49,7 +51,7 @@ namespace Kemet.ERP.Persistence.Repositories
             int? take = null,
             params string[] includeProperties) where T : TEntity
         {
-            IQueryable<T> query = _context.Set<T>();
+            IQueryable<T> query = _context.Set<T>().Where(x => x.IsDeleted == false);
 
             // Include properties
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
@@ -76,6 +78,9 @@ namespace Kemet.ERP.Persistence.Repositories
         {
             IQueryable<T> query = _context.Set<T>().Where(filterExpression);
 
+            // Apply additional conditions for IsDeleted
+            query = query.Where(x => x.IsDeleted == false);
+
             // Include properties
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
 
@@ -99,7 +104,7 @@ namespace Kemet.ERP.Persistence.Repositories
             CancellationToken cancellationToken = default,
             params string[] includeProperties) where T : TEntity
         {
-            IQueryable<T> query = _context.Set<T>();
+            IQueryable<T> query = _context.Set<T>().Where(x => x.IsDeleted == false);
 
             // Include properties
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
@@ -127,6 +132,9 @@ namespace Kemet.ERP.Persistence.Repositories
         {
             IQueryable<T> query = _context.Set<T>().Where(filterExpression);
 
+            // Apply additional conditions for IsDeleted
+            query = query.Where(x => x.IsDeleted == false);
+
             // Include properties
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
 
@@ -149,6 +157,10 @@ namespace Kemet.ERP.Persistence.Repositories
             params string[] includeProperties) where T : TEntity
         {
             IQueryable<T> query = _context.Set<T>().Where(filterExpression);
+
+            // Apply additional conditions for IsDeleted
+            query = query.Where(x => x.IsDeleted == false);
+
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
             return await query.SingleOrDefaultAsync(cancellationToken);
         }
@@ -158,6 +170,10 @@ namespace Kemet.ERP.Persistence.Repositories
             params string[] includeProperties) where T : TEntity
         {
             IQueryable<T> query = _context.Set<T>().Where(filterExpression);
+
+            // Apply additional conditions for IsDeleted
+            query = query.Where(x => x.IsDeleted == false);
+
             query = includeProperties.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
             return await query.FirstOrDefaultAsync(cancellationToken);
         }
@@ -185,12 +201,21 @@ namespace Kemet.ERP.Persistence.Repositories
 
         public void Remove<T>(T entity) where T : TEntity
         {
-            _context.Set<T>().Remove(entity);
+            entity.IsDeleted = true;
+            Update<T>(entity);
+
+            //_context.Set<T>().Remove(entity);
         }
 
         public void RemoveRange<T>(IEnumerable<T> entities) where T : TEntity
         {
-            _context.Set<T>().RemoveRange(entities);
+            foreach (var item in entities)
+            {
+                item.IsDeleted = true;
+            }
+            UpdateRange<T>(entities);
+
+            //_context.Set<T>().RemoveRange(entities);
         }
 
         public async Task<int> CountAsync<T>(Expression<Func<T, bool>> filterExpression,

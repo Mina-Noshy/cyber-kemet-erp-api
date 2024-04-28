@@ -1,0 +1,4 @@
+{"Timestamp":"2024-04-23T20:13:30.7184080+02:00","Level":"Information","MessageTemplate":"Starting web host"}
+{"Timestamp":"2024-04-23T20:13:33.4035735+02:00","Level":"Information","MessageTemplate":"Application started. Press Ctrl+C to shut down.","Properties":{"SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2024-04-23T20:13:33.4137403+02:00","Level":"Information","MessageTemplate":"Hosting environment: {EnvName}","Properties":{"EnvName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}}
+{"Timestamp":"2024-04-23T20:13:33.4153307+02:00","Level":"Information","MessageTemplate":"Content root path: {ContentRoot}","Properties":{"ContentRoot":"D:\\Projects\\Cyber Kemet\\cyber-kemet-erp-api\\Kemet.ERP\\Kemet.ERP.Api","SourceContext":"Microsoft.Hosting.Lifetime"}}

@@ -28,7 +28,7 @@ namespace Kemet.ERP.Services.Identity
 
             await SendConfirmationEmailAsync(request.Email);
 
-            return new ApiResponse(true, "The user has been created successfully");
+            return new ApiResponse(true, "The user has been created successfully, Please check your email inbox");
         }
 
         public async Task<ApiResponse> GetUsersAsync(int skip, int take, CancellationToken cancellationToken = default)
