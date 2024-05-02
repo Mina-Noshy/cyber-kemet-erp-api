@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace Kemet.ERP.Presentation.Controllers.Master
 {
     [Authorize]
-    public class CurrencyMasterController : BaseMasterController
+    public class BanksController : BaseMasterController
     {
-        private readonly ICurrencyMasterService _service;
-        public CurrencyMasterController(ICurrencyMasterService service)
+        private readonly IBankMasterService _service;
+        public BanksController(IBankMasterService service)
             => _service = service;
 
 
@@ -28,11 +28,11 @@ namespace Kemet.ERP.Presentation.Controllers.Master
             => FormatHttpResponse(await _service.GetByIdAsync(id, cancellationToken));
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CurrencyMasterDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAsync(BankMasterDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.CreateAsync(request, cancellationToken));
 
         [HttpPut("{id:long}")]
-        public async Task<IActionResult> UpdateAsync(long id, CurrencyMasterDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAsync(long id, BankMasterDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.UpdateAsync(id, request, cancellationToken));
 
         [HttpDelete("{id:long}")]

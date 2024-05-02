@@ -5,6 +5,8 @@ namespace Kemet.ERP.Domain.Entities.Identity
 {
     public class AppUser : IdentityUser<string>
     {
+        public long? EmployeeId { get; set; }
+
         [MaxLength(50)]
         public string FirstName { get; set; }
 

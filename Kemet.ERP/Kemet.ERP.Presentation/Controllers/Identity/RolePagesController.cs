@@ -1,23 +1,19 @@
-﻿using Kemet.ERP.Abstraction.Master;
-using Kemet.ERP.Contracts.Master;
+﻿using Kemet.ERP.Abstraction.Identity;
+using Kemet.ERP.Contracts.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Kemet.ERP.Presentation.Controllers.Master
+namespace Kemet.ERP.Presentation.Controllers.Identity
 {
     [Authorize]
-    public class BankMasterController : BaseMasterController
+    public class RolePagesController : BaseIdentityController
     {
-        private readonly IBankMasterService _service;
-        public BankMasterController(IBankMasterService service)
+        private readonly IRolePageMasterService _service;
+        public RolePagesController(IRolePageMasterService service)
             => _service = service;
 
 
 
-
-        [HttpGet("light")]
-        public async Task<IActionResult> GetLightAsync(CancellationToken cancellationToken)
-            => FormatHttpResponse(await _service.GetLightAsync(cancellationToken));
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync(CancellationToken cancellationToken)
@@ -27,12 +23,16 @@ namespace Kemet.ERP.Presentation.Controllers.Master
         public async Task<IActionResult> GetByIdAsync(long id, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.GetByIdAsync(id, cancellationToken));
 
+        [HttpGet("by-role/{roleId}")]
+        public async Task<IActionResult> GetAllByRoleIdAsync(string roleId, CancellationToken cancellationToken)
+            => FormatHttpResponse(await _service.GetAllByRoleIdAsync(roleId, cancellationToken));
+
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(BankMasterDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAsync(RolePageMasterDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.CreateAsync(request, cancellationToken));
 
         [HttpPut("{id:long}")]
-        public async Task<IActionResult> UpdateAsync(long id, BankMasterDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAsync(long id, RolePageMasterDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.UpdateAsync(id, request, cancellationToken));
 
         [HttpDelete("{id:long}")]

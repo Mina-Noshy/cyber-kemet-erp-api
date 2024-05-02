@@ -6,8 +6,8 @@ namespace Kemet.ERP.Domain.Entities.Identity
     public class MenuMaster : TEntity
     {
         public long ModuleId { get; set; }
-        public string EnName { get; set; }
-        public string ArName { get; set; }
+        public string Name { get; set; }
+        public string Label { get; set; }
         public string Icon { get; set; }
 
         [ForeignKey(nameof(ModuleId))]
