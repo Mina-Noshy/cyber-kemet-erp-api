@@ -8,10 +8,10 @@ using Mapster;
 
 namespace Kemet.ERP.Services.Master
 {
-    public class CountryMasterService : ICountryMasterService
+    internal class BankMasterService : IBankMasterService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CountryMasterService(IUnitOfWork unitOfWork)
+        public BankMasterService(IUnitOfWork unitOfWork)
                 => _unitOfWork = unitOfWork;
 
 
@@ -19,10 +19,10 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _unitOfWork.Repository().GetAllAsync<CountryMaster>(null, null, null, cancellationToken);
+                await _unitOfWork.Repository().GetAllAsync<BankMaster>(null, null, null, cancellationToken);
 
             var lstDto =
-                lst.Adapt<IEnumerable<CountryMasterDto>>();
+                lst.Adapt<IEnumerable<BankMasterDto>>();
 
             return new ApiResponse(true, lstDto);
         }
@@ -30,13 +30,13 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> GetByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _unitOfWork.Repository().GetByIdAsync<CountryMaster>(id, cancellationToken);
+                await _unitOfWork.Repository().GetByIdAsync<BankMaster>(id, cancellationToken);
 
             if (entity is null)
-                throw new EntityNotFoundException<CountryMaster>(id);
+                throw new EntityNotFoundException<BankMaster>(id);
 
             var entityDto =
-                entity.Adapt<CountryMasterDto>();
+                entity.Adapt<BankMasterDto>();
 
             return new ApiResponse(true, entityDto);
         }
@@ -44,18 +44,18 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> GetLightAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _unitOfWork.Repository().GetDynamicAsync<CountryMaster>(null,
-                x => new { x.Id, x.Name },
-                x => x.OrderBy(x => x.Name),
+                await _unitOfWork.Repository().GetDynamicAsync<BankMaster>(null,
+                x => new { x.Id, Name = x.BankName },
+                x => x.OrderBy(x => x.BankName),
                 cancellationToken);
 
             return new ApiResponse(true, lst);
         }
 
-        public async Task<ApiResponse> CreateAsync(CountryMasterDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> CreateAsync(BankMasterDto request, CancellationToken cancellationToken = default)
         {
             var entity =
-                request.Adapt<CountryMaster>();
+                request.Adapt<BankMaster>();
 
             _unitOfWork.Repository().Add(entity);
 
@@ -68,13 +68,13 @@ namespace Kemet.ERP.Services.Master
             return new ApiResponse(false, ApiMessage.FailedCreate);
         }
 
-        public async Task<ApiResponse> UpdateAsync(long id, CountryMasterDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> UpdateAsync(long id, BankMasterDto request, CancellationToken cancellationToken = default)
         {
             if (id != request.Id)
                 return new ApiResponse(false, ApiMessage.EntityIdMismatch);
 
             var entity =
-                request.Adapt<CountryMaster>();
+                request.Adapt<BankMaster>();
 
             _unitOfWork.Repository().Update(entity);
 
@@ -90,10 +90,10 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _unitOfWork.Repository().GetByIdAsync<CountryMaster>(id, cancellationToken);
+                await _unitOfWork.Repository().GetByIdAsync<BankMaster>(id, cancellationToken);
 
             if (entity is null)
-                throw new EntityNotFoundException<CountryMaster>(id);
+                throw new EntityNotFoundException<BankMaster>(id);
 
             _unitOfWork.Repository().Remove(entity);
 

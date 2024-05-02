@@ -1,11 +1,12 @@
-﻿using Kemet.ERP.Domain.Entities.Shared;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Kemet.ERP.Contracts.Shared;
 
-namespace Kemet.ERP.Domain.Entities.HR.Master
+namespace Kemet.ERP.Contracts.HR.Master
 {
-    public class BranchMaster : TEntity
+    public class BranchMasterListingDto : IDto
     {
+        public long Id { get; set; }
         public long CompanyId { get; set; }
+        public string CompanyName { get; set; }
 
         public string Name { get; set; }
         public string Country { get; set; }
@@ -21,9 +22,5 @@ namespace Kemet.ERP.Domain.Entities.HR.Master
         public string? Notes { get; set; }
 
         public bool IsActive { get; set; }
-
-
-        [ForeignKey(nameof(CompanyId))]
-        public virtual CompanyMaster? GetCompany { get; set; }
     }
 }

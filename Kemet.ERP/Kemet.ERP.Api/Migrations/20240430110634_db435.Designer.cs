@@ -4,6 +4,7 @@ using Kemet.ERP.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kemet.ERP.Api.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class RepositoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240430110634_db435")]
+    partial class db435
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,56 +82,6 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmployeeContactInformations");
-                });
-
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.HrDatabase.EmployeeDependent", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("EmployeeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsCoveredByInsurance")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsStudent")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Relationship")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SchoolName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmployeeDependents");
                 });
 
             modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.HrDatabase.EmployeeEmergencyContact", b =>
@@ -464,16 +417,8 @@ namespace Kemet.ERP.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("CompanyId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -510,8 +455,6 @@ namespace Kemet.ERP.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.ToTable("BranchMaster");
                 });
@@ -788,9 +731,9 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "170de998-db71-4d34-8aba-0ee677919e7b",
+                            Id = "932ac849-085b-4ad9-b535-b558068a4999",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "94039093-fba0-44db-abee-09464d840498",
+                            ConcurrencyStamp = "e71c1225-2a8b-45d8-933d-1da0c05935b0",
                             Email = "info@cyberkemet.com",
                             EmailConfirmed = true,
                             FirstName = "Cyber",
@@ -798,10 +741,10 @@ namespace Kemet.ERP.Api.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "INFO@CYBERKEMET.COM",
                             NormalizedUserName = "CYBER-KEMET",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIfEi6ngxPvYPS1IA7LLP7Z7bbf8XB/AKz4+y3HoKvKvjMdwJ6k5yQ5X/53X50OCMQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDXChVmLg3scDyWHHxFIYA990FEP9oJwGHbV98zp/6b0Gpga612rHdMvmuIOFrG5NA==",
                             PhoneNumber = "01111257052",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "6f35e644-f32b-4df6-bbcd-97bdfec7a3bd",
+                            SecurityStamp = "e628cc93-fe96-44e2-a1ec-f2c8b47e571e",
                             TwoFactorEnabled = false,
                             UserName = "cyber-kemet"
                         });
@@ -1567,13 +1510,13 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b3c06e9e-f8f2-4f9a-8d53-6fec1b5f09a3",
+                            Id = "ea6a2d88-7385-4d1a-8be3-541fea496614",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e2b7287d-e4b1-42ac-beb1-05b584ded9e9",
+                            Id = "5b5cce6c-eac5-4b83-947d-c5662a7ea016",
                             Name = "HR Admin",
                             NormalizedName = "HR ADMIN"
                         });
@@ -1668,8 +1611,8 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "170de998-db71-4d34-8aba-0ee677919e7b",
-                            RoleId = "e2b7287d-e4b1-42ac-beb1-05b584ded9e9"
+                            UserId = "932ac849-085b-4ad9-b535-b558068a4999",
+                            RoleId = "5b5cce6c-eac5-4b83-947d-c5662a7ea016"
                         });
                 });
 
@@ -1690,17 +1633,6 @@ namespace Kemet.ERP.Api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Kemet.ERP.Domain.Entities.HR.Master.BranchMaster", b =>
-                {
-                    b.HasOne("Kemet.ERP.Domain.Entities.HR.Master.CompanyMaster", "GetCompany")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GetCompany");
                 });
 
             modelBuilder.Entity("Kemet.ERP.Domain.Entities.Identity.AppUser", b =>

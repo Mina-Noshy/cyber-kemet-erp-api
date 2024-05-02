@@ -4,7 +4,6 @@ using Kemet.ERP.Contracts.Response;
 using Kemet.ERP.Domain.Entities.Master;
 using Kemet.ERP.Domain.Exceptions;
 using Kemet.ERP.Domain.IRepositories;
-using Kemet.ERP.Domain.IRepositories.App;
 using Mapster;
 
 namespace Kemet.ERP.Services.Master
@@ -12,10 +11,8 @@ namespace Kemet.ERP.Services.Master
     public class CityMasterService : ICityMasterService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRequestHandlingRepository _request;
-
-        public CityMasterService(IUnitOfWork unitOfWork, IRequestHandlingRepository request)
-            => (_unitOfWork, _request) = (unitOfWork, request);
+        public CityMasterService(IUnitOfWork unitOfWork)
+            => _unitOfWork = unitOfWork;
 
 
 
@@ -45,7 +42,7 @@ namespace Kemet.ERP.Services.Master
             var lst =
                 await _unitOfWork.Repository().GetDynamicAsync<CityMaster>(
                 x => x.CountryId == countryId,
-                x => new { x.Id, Name = x.Name },
+                x => new { x.Id, x.Name },
                 x => x.OrderBy(x => x.Name),
                 cancellationToken);
 

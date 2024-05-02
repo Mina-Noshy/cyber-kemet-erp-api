@@ -1,9 +1,10 @@
-﻿using Kemet.ERP.Domain.Entities.Shared;
+﻿using Kemet.ERP.Contracts.Shared;
 
-namespace Kemet.ERP.Domain.Entities.Master
+namespace Kemet.ERP.Contracts.Master
 {
-    public class CurrencyMaster : TEntity
+    public class CurrencyMasterDto : IDto
     {
+        public long Id { get; set; }
         public string Code { get; set; }
         public string? Name { get; set; }
         public string? Symbol { get; set; }

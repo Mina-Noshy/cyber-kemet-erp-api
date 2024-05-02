@@ -1,9 +1,10 @@
-﻿using Kemet.ERP.Domain.Entities.Shared;
+﻿using Kemet.ERP.Contracts.Shared;
 
-namespace Kemet.ERP.Domain.Entities.Master
+namespace Kemet.ERP.Contracts.Master
 {
-    public class BankMaster : TEntity
+    public class BankMasterDto : IDto
     {
+        public long Id { get; set; }
         public string BankName { get; set; }
         public string? BankCode { get; set; }
         public string RoutingNumber { get; set; }

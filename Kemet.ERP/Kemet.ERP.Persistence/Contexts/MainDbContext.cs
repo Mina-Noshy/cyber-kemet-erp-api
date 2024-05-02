@@ -1,4 +1,6 @@
-﻿using Kemet.ERP.Domain.Entities.Identity;
+﻿using Kemet.ERP.Domain.Entities.HR.HrDatabase;
+using Kemet.ERP.Domain.Entities.HR.Master;
+using Kemet.ERP.Domain.Entities.Identity;
 using Kemet.ERP.Domain.Entities.Master;
 using Kemet.ERP.Domain.Entities.Shared;
 using Kemet.ERP.Shared.Constants;
@@ -7,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Linq.Expressions;
 
 namespace Kemet.ERP.Persistence.Contexts
 {
@@ -58,17 +59,50 @@ namespace Kemet.ERP.Persistence.Contexts
         }
 
 
-        #region HR Module
 
-        // Common
-        public DbSet<CountryMaster> CountryMaster { get; set; }
-        public DbSet<CityMaster> RegionMaster { get; set; }
 
-        // Permission
+
+        #region Identity Module
+
         public DbSet<ModuleMaster> ModuleMaster { get; set; }
         public DbSet<MenuMaster> MenuMaster { get; set; }
         public DbSet<PageMaster> PageMaster { get; set; }
         public DbSet<RolePageMaster> RolePageMaster { get; set; }
+
+        #endregion
+
+
+        #region Master Module
+
+        public DbSet<CountryMaster> CountryMaster { get; set; }
+        public DbSet<CityMaster> CityMaster { get; set; }
+        public DbSet<BankMaster> BankMaster { get; set; }
+        public DbSet<CurrencyMaster> CurrencyMaster { get; set; }
+
+        #endregion
+
+
+        #region HR Module
+
+        // Master
+        public DbSet<CompanyMaster> CompanyMaster { get; set; }
+        public DbSet<BranchMaster> BranchMaster { get; set; }
+        public DbSet<JobTitleMaster> JobTitleMaster { get; set; }
+        public DbSet<DepartmentMaster> DepartmentMaster { get; set; }
+        public DbSet<EmploymentStatusMaster> EmploymentStatusMaster { get; set; }
+        public DbSet<EmploymentTypeMaster> EmploymentTypeMaster { get; set; }
+
+        // HR Database
+        public DbSet<EmployeeBankAccount> EmployeeBankAccounts { get; set; }
+        public DbSet<EmployeeContactInformation> EmployeeContactInformations { get; set; }
+        public DbSet<EmployeeEmergencyContact> EmployeeEmergencyContacts { get; set; }
+        public DbSet<EmployeeMaster> EmployeeMaster { get; set; }
+        public DbSet<EmploymentHistory> EmploymentHistories { get; set; }
+        public DbSet<EmploymentStatus> EmploymentStatuses { get; set; }
+        public DbSet<EmploymentType> EmploymentTypes { get; set; }
+        public DbSet<EmployeePersonalInformation> EmployeePersonalInformations { get; set; }
+        public DbSet<EmployeeTaxProfile> EmployeeTaxProfiles { get; set; }
+        public DbSet<EmployeeDependent> EmployeeDependents { get; set; }
 
         #endregion
 

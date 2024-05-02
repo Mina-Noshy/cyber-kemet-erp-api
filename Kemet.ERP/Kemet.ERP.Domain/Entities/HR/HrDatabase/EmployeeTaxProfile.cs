@@ -2,7 +2,7 @@
 
 namespace Kemet.ERP.Domain.Entities.HR.HrDatabase
 {
-    public class TaxInformation : TEntity
+    public class EmployeeTaxProfile : TEntity
     {
         public long EmployeeId { get; set; }
 
@@ -13,7 +13,7 @@ namespace Kemet.ERP.Domain.Entities.HR.HrDatabase
         public decimal NetSalary { get; private set; }
 
 
-        public TaxInformation(long employeeId, decimal salary, decimal taxRate, decimal taxableIncome)
+        public EmployeeTaxProfile(long employeeId, decimal salary, decimal taxRate, decimal taxableIncome)
         {
             EmployeeId = employeeId;
             Salary = salary;

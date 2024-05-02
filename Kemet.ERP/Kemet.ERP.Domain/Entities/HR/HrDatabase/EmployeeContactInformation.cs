@@ -2,7 +2,7 @@
 
 namespace Kemet.ERP.Domain.Entities.HR.HrDatabase
 {
-    public class ContactInformation : TEntity
+    public class EmployeeContactInformation : TEntity
     {
         public long EmployeeId { get; set; }
         public string ContactType { get; set; }

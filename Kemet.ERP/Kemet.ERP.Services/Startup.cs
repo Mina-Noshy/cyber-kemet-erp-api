@@ -21,6 +21,9 @@ namespace Kemet.ERP.Services
             services.AddScoped<ICountryMasterService, CountryMasterService>();
             services.AddScoped<ICityMasterService, CityMasterService>();
 
+            services.AddScoped<IBankMasterService, BankMasterService>();
+            services.AddScoped<ICurrencyMasterService, CurrencyMasterService>();
+
             return services;
         }
     }

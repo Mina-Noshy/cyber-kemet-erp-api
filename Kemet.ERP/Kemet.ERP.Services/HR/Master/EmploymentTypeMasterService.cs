@@ -1,17 +1,17 @@
-﻿using Kemet.ERP.Abstraction.Master;
-using Kemet.ERP.Contracts.Master;
+﻿using Kemet.ERP.Abstraction.HR.Master;
+using Kemet.ERP.Contracts.HR.Master;
 using Kemet.ERP.Contracts.Response;
-using Kemet.ERP.Domain.Entities.Master;
+using Kemet.ERP.Domain.Entities.HR.Master;
 using Kemet.ERP.Domain.Exceptions;
 using Kemet.ERP.Domain.IRepositories;
 using Mapster;
 
-namespace Kemet.ERP.Services.Master
+namespace Kemet.ERP.Services.HR.Master
 {
-    public class CountryMasterService : ICountryMasterService
+    internal class EmploymentTypeMasterService : IEmploymentTypeMasterService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CountryMasterService(IUnitOfWork unitOfWork)
+        public EmploymentTypeMasterService(IUnitOfWork unitOfWork)
                 => _unitOfWork = unitOfWork;
 
 
@@ -19,10 +19,10 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _unitOfWork.Repository().GetAllAsync<CountryMaster>(null, null, null, cancellationToken);
+                await _unitOfWork.Repository().GetAllAsync<EmploymentTypeMaster>(null, null, null, cancellationToken);
 
             var lstDto =
-                lst.Adapt<IEnumerable<CountryMasterDto>>();
+                lst.Adapt<IEnumerable<EmploymentTypeMasterDto>>();
 
             return new ApiResponse(true, lstDto);
         }
@@ -30,13 +30,13 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> GetByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _unitOfWork.Repository().GetByIdAsync<CountryMaster>(id, cancellationToken);
+                await _unitOfWork.Repository().GetByIdAsync<EmploymentTypeMaster>(id, cancellationToken);
 
             if (entity is null)
-                throw new EntityNotFoundException<CountryMaster>(id);
+                throw new EntityNotFoundException<EmploymentTypeMaster>(id);
 
             var entityDto =
-                entity.Adapt<CountryMasterDto>();
+                entity.Adapt<EmploymentTypeMasterDto>();
 
             return new ApiResponse(true, entityDto);
         }
@@ -44,7 +44,7 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> GetLightAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _unitOfWork.Repository().GetDynamicAsync<CountryMaster>(null,
+                await _unitOfWork.Repository().GetDynamicAsync<EmploymentTypeMaster>(null,
                 x => new { x.Id, x.Name },
                 x => x.OrderBy(x => x.Name),
                 cancellationToken);
@@ -52,10 +52,10 @@ namespace Kemet.ERP.Services.Master
             return new ApiResponse(true, lst);
         }
 
-        public async Task<ApiResponse> CreateAsync(CountryMasterDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> CreateAsync(EmploymentTypeMasterDto request, CancellationToken cancellationToken = default)
         {
             var entity =
-                request.Adapt<CountryMaster>();
+                request.Adapt<EmploymentTypeMaster>();
 
             _unitOfWork.Repository().Add(entity);
 
@@ -68,13 +68,13 @@ namespace Kemet.ERP.Services.Master
             return new ApiResponse(false, ApiMessage.FailedCreate);
         }
 
-        public async Task<ApiResponse> UpdateAsync(long id, CountryMasterDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> UpdateAsync(long id, EmploymentTypeMasterDto request, CancellationToken cancellationToken = default)
         {
             if (id != request.Id)
                 return new ApiResponse(false, ApiMessage.EntityIdMismatch);
 
             var entity =
-                request.Adapt<CountryMaster>();
+                request.Adapt<EmploymentTypeMaster>();
 
             _unitOfWork.Repository().Update(entity);
 
@@ -90,10 +90,10 @@ namespace Kemet.ERP.Services.Master
         public async Task<ApiResponse> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _unitOfWork.Repository().GetByIdAsync<CountryMaster>(id, cancellationToken);
+                await _unitOfWork.Repository().GetByIdAsync<EmploymentTypeMaster>(id, cancellationToken);
 
             if (entity is null)
-                throw new EntityNotFoundException<CountryMaster>(id);
+                throw new EntityNotFoundException<EmploymentTypeMaster>(id);
 
             _unitOfWork.Repository().Remove(entity);
 
