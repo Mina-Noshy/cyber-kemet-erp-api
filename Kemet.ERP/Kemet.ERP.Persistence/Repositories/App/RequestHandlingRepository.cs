@@ -1,5 +1,5 @@
-﻿using Kemet.ERP.Domain.IRepositories.App;
-using Kemet.ERP.Shared.Constants;
+﻿using Kemet.ERP.Domain.Common.Constants;
+using Kemet.ERP.Domain.IRepositories.App;
 using Microsoft.AspNetCore.Http;
 
 namespace Kemet.ERP.Persistence.Repositories.App

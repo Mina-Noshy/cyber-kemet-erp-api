@@ -1,4 +1,4 @@
-﻿using Kemet.ERP.Shared.Constants;
+﻿using Kemet.ERP.Domain.Common.Constants;
 using System.Security.Claims;
 
 namespace Kemet.ERP.Api.Middleware

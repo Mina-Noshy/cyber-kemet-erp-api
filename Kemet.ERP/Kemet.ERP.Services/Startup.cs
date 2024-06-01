@@ -27,10 +27,10 @@ namespace Kemet.ERP.Services
             services.AddScoped<IAccountService, AccountService>();
 
             // Permissions
+            services.AddScoped<IRoleMasterService, RoleMasterService>();
             services.AddScoped<IModuleMasterService, ModuleMasterService>();
             services.AddScoped<IMenuMasterService, MenuMasterService>();
             services.AddScoped<IPageMasterService, PageMasterService>();
-            services.AddScoped<IRolePageMasterService, RolePageMasterService>();
 
             #endregion
 

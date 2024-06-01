@@ -1,9 +1,9 @@
-﻿using Kemet.ERP.Domain.Entities.HR.HrDatabase;
+﻿using Kemet.ERP.Domain.Common.Constants;
+using Kemet.ERP.Domain.Entities.HR.HrDatabase;
 using Kemet.ERP.Domain.Entities.HR.Master;
 using Kemet.ERP.Domain.Entities.Identity;
 using Kemet.ERP.Domain.Entities.Master;
 using Kemet.ERP.Domain.Entities.Shared;
-using Kemet.ERP.Shared.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

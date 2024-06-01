@@ -191,11 +191,20 @@ namespace Kemet.ERP.Persistence.Repositories
 
         public void Update<T>(T entity) where T : TEntity
         {
+            if (entity.Id < 1)
+                return;
+
             _context.Set<T>().Update(entity);
         }
 
         public void UpdateRange<T>(IEnumerable<T> entities) where T : TEntity
         {
+            foreach (var item in entities)
+            {
+                if (item.Id < 1)
+                    return;
+            }
+
             _context.Set<T>().UpdateRange(entities);
         }
 

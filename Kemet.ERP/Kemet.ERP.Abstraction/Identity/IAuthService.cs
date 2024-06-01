@@ -5,12 +5,6 @@ namespace Kemet.ERP.Abstraction.Identity
 {
     public interface IAuthService
     {
-        Task<ApiResponse> GetRolesAsync(CancellationToken cancellationToken = default);
-        Task<ApiResponse?> GetRoleByIdAsync(string id, CancellationToken cancellationToken = default);
-
-        Task<ApiResponse> CreateRoleAsync(string role, CancellationToken cancellationToken = default);
-        Task<ApiResponse> DeleteRoleAsync(string role, CancellationToken cancellationToken = default);
-
         Task<ApiResponse> AddUserRoleAsync(UserToRoleDto request, CancellationToken cancellationToken = default);
         Task<ApiResponse> RemoveUserRoleAsync(UserToRoleDto request, CancellationToken cancellationToken = default);
 

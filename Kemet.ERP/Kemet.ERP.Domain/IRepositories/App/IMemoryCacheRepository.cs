@@ -1,11 +1,9 @@
-﻿using Kemet.ERP.Shared.Constants;
-
-namespace Kemet.ERP.Domain.IRepositories.App
+﻿namespace Kemet.ERP.Domain.IRepositories.App
 {
     public interface IMemoryCacheRepository
     {
-        T? Get<T>(CacheServiceKeys key);
-        void Set<T>(CacheServiceKeys key, T value, TimeSpan expiration);
-        void Remove(CacheServiceKeys key);
+        T? Get<T>(string key);
+        void Set<T>(string key, T value, TimeSpan expiration);
+        void Remove(string key);
     }
 }

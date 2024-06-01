@@ -1,10 +1,10 @@
 
 using Kemet.ERP.Api;
 using Kemet.ERP.Api.Configurations;
+using Kemet.ERP.Api.Logger;
+using Kemet.ERP.Domain.Common.Utilities;
 using Kemet.ERP.Persistence;
-using Kemet.ERP.Presentation.Logger;
 using Kemet.ERP.Services;
-using Kemet.ERP.Shared.Utilities;
 using Serilog;
 
 try

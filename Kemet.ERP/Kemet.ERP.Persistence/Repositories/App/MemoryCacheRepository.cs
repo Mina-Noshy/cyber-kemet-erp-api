@@ -1,5 +1,4 @@
 ﻿using Kemet.ERP.Domain.IRepositories.App;
-using Kemet.ERP.Shared.Constants;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Kemet.ERP.Persistence.Repositories.App
@@ -11,13 +10,13 @@ namespace Kemet.ERP.Persistence.Repositories.App
         public MemoryCacheRepository(IMemoryCache memoryCache)
             => _memoryCache = memoryCache;
 
-        public T? Get<T>(CacheServiceKeys key)
-            => _memoryCache.Get<T>(key.ToString());
+        public T? Get<T>(string key)
+            => _memoryCache.Get<T>(key);
 
-        public void Set<T>(CacheServiceKeys key, T value, TimeSpan expiration)
-            => _memoryCache.Set(key.ToString(), value, expiration);
+        public void Set<T>(string key, T value, TimeSpan expiration)
+            => _memoryCache.Set(key, value, expiration);
 
-        public void Remove(CacheServiceKeys key)
-            => _memoryCache.Remove(key.ToString());
+        public void Remove(string key)
+            => _memoryCache.Remove(key);
     }
 }

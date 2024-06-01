@@ -1,4 +1,5 @@
-﻿using Kemet.ERP.Domain.Entities.Identity;
+﻿using Kemet.ERP.Domain.Common.Utilities;
+using Kemet.ERP.Domain.Entities.Identity;
 using Kemet.ERP.Domain.IRepositories;
 using Kemet.ERP.Domain.IRepositories.App;
 using Kemet.ERP.Domain.IRepositories.Identity;
@@ -6,7 +7,6 @@ using Kemet.ERP.Persistence.Contexts;
 using Kemet.ERP.Persistence.Repositories;
 using Kemet.ERP.Persistence.Repositories.App;
 using Kemet.ERP.Persistence.Repositories.Identity;
-using Kemet.ERP.Shared.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

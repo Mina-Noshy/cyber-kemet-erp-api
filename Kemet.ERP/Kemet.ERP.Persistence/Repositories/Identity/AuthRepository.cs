@@ -17,7 +17,7 @@ namespace Kemet.ERP.Persistence.Repositories.Identity
             => (_context, _userManager, _roleManager) = (context, userManager, roleManager);
 
 
-
+        // Roles section
         public async Task<IEnumerable<IdentityRole>> GetRolesAsync(CancellationToken cancellationToken = default)
             => await _roleManager.Roles.ToListAsync(cancellationToken);
 
@@ -27,17 +27,26 @@ namespace Kemet.ERP.Persistence.Repositories.Identity
         public async Task<IdentityRole?> GetRoleByNameAsync(string name, CancellationToken cancellationToken = default)
             => await _roleManager.FindByNameAsync(name);
 
+        public async Task<IdentityResult> CreateRoleAsync(IdentityRole role, CancellationToken cancellationToken = default)
+            => await _roleManager.CreateAsync(role);
+
+        public async Task<IdentityResult> UpdateRoleAsync(IdentityRole role, CancellationToken cancellationToken = default)
+            => await _roleManager.UpdateAsync(role);
+
+        public async Task<IdentityResult> DeleteRoleAsync(string id, CancellationToken cancellationToken = default)
+            => await _roleManager.DeleteAsync(await GetRoleByIdAsync(id));
+
+
+
+
+
+
+        // Auth section
         public async Task<IdentityResult> AddUserRoleAsync(AppUser user, string role, CancellationToken cancellationToken = default)
             => await _userManager.AddToRoleAsync(user, role);
 
         public async Task<IdentityResult> RemoveUserRoleAsync(AppUser user, string role, CancellationToken cancellationToken = default)
             => await _userManager.RemoveFromRoleAsync(user, role);
-
-        public async Task<IdentityResult> CreateRoleAsync(string role, CancellationToken cancellationToken = default)
-            => await _roleManager.CreateAsync(new IdentityRole(role));
-
-        public async Task<IdentityResult> DeleteRoleAsync(string role, CancellationToken cancellationToken = default)
-            => await _roleManager.DeleteAsync(await GetRoleByNameAsync(role));
 
         public async Task<bool> CheckPasswordAsync(AppUser user, string password, CancellationToken cancellationToken = default)
             => await _userManager.CheckPasswordAsync(user, password);

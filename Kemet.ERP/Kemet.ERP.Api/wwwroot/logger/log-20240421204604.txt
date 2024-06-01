@@ -1,6 +1,0 @@
-{"Timestamp":"2024-04-21T20:46:09.1385999+02:00","Level":"Information","MessageTemplate":"Starting web host"}
-{"Timestamp":"2024-04-21T20:46:13.8052299+02:00","Level":"Information","MessageTemplate":"Now listening on: {address}","Properties":{"address":"https://localhost:7166","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}}
-{"Timestamp":"2024-04-21T20:46:13.8120534+02:00","Level":"Information","MessageTemplate":"Now listening on: {address}","Properties":{"address":"http://localhost:5290","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}}
-{"Timestamp":"2024-04-21T20:46:13.8161305+02:00","Level":"Information","MessageTemplate":"Application started. Press Ctrl+C to shut down.","Properties":{"SourceContext":"Microsoft.Hosting.Lifetime"}}
-{"Timestamp":"2024-04-21T20:46:13.8170948+02:00","Level":"Information","MessageTemplate":"Hosting environment: {EnvName}","Properties":{"EnvName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}}
-{"Timestamp":"2024-04-21T20:46:13.8174434+02:00","Level":"Information","MessageTemplate":"Content root path: {ContentRoot}","Properties":{"ContentRoot":"D:\\Projects\\Cyber Kemet\\cyber-kemet-erp-api\\Kemet.ERP\\Kemet.ERP.Api","SourceContext":"Microsoft.Hosting.Lifetime"}}

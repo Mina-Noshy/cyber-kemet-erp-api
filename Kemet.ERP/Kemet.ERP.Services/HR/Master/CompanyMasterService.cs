@@ -1,6 +1,8 @@
 ﻿using Kemet.ERP.Abstraction.HR.Master;
 using Kemet.ERP.Contracts.HR.Master;
 using Kemet.ERP.Contracts.Response;
+using Kemet.ERP.Domain.Common.Extensions;
+using Kemet.ERP.Domain.Common.Utilities;
 using Kemet.ERP.Domain.Entities.HR.Master;
 using Kemet.ERP.Domain.Exceptions;
 using Kemet.ERP.Domain.IRepositories;
@@ -57,6 +59,9 @@ namespace Kemet.ERP.Services.HR.Master
             var entity =
                 request.Adapt<CompanyMaster>();
 
+            if (request.Logo != null)
+                entity.Logo = await request.Logo.Upload(IOHelper.GetCompanyProfilePath(request.Name));
+
             _unitOfWork.Repository().Add(entity);
 
             var effectedRows =
@@ -76,13 +81,32 @@ namespace Kemet.ERP.Services.HR.Master
             var entity =
                 request.Adapt<CompanyMaster>();
 
+            string? oldLogo = string.Empty;
+
+            if (request.Logo != null)
+            {
+                var oldEntity = await _unitOfWork.Repository().GetByIdAsync<CompanyMaster>(id);
+
+                if (oldEntity != null)
+                    oldLogo = oldEntity.Logo;
+
+                string newLogo = await request.Logo.Upload(IOHelper.GetCompanyProfilePath(request.Name));
+
+                if (!string.IsNullOrEmpty(newLogo))
+                    entity.Logo = newLogo;
+            }
+
             _unitOfWork.Repository().Update(entity);
 
             var effectedRows =
                 await _unitOfWork.CommitAsync(cancellationToken);
 
             if (effectedRows > 0)
+            {
+                UploadHelper.Delete(oldLogo, IOHelper.GetCompanyProfilePath(entity.Name));
+
                 return new ApiResponse(true, ApiMessage.SuccessfulUpdate);
+            }
 
             return new ApiResponse(false, ApiMessage.FailedUpdate);
         }
@@ -95,13 +119,19 @@ namespace Kemet.ERP.Services.HR.Master
             if (entity is null)
                 throw new EntityNotFoundException<CompanyMaster>(id);
 
+            string? logo = entity.Logo;
+
             _unitOfWork.Repository().Remove(entity);
 
             var effectedRows =
                 await _unitOfWork.CommitAsync(cancellationToken);
 
             if (effectedRows > 0)
+            {
+                //UploadHelper.Delete(logo, IOHelper.GetCompanyProfilePath(entity.Name));
+
                 return new ApiResponse(true, ApiMessage.SuccessfulDelete);
+            }
 
             return new ApiResponse(false, ApiMessage.FailedDelete);
         }

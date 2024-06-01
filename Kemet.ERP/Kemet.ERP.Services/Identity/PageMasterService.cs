@@ -19,7 +19,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var lst =
-                await _unitOfWork.Repository().GetAllAsync<PageMaster>(null, null, null, cancellationToken, "GetMenu");
+                await _unitOfWork.Repository().GetAllAsync<PageMaster>(null, null, null, cancellationToken, "GetMenu.GetModule");
 
             var lstDto =
                 lst.Select(x => new PageMasterListingDto
@@ -30,7 +30,9 @@ namespace Kemet.ERP.Services.Identity
                     Icon = x.Icon,
                     Label = x.Label,
                     Url = x.Url,
-                    MenuName = x.GetMenu?.Name
+                    MenuName = x.GetMenu?.Name,
+                    ModuleId = x.GetMenu?.ModuleId,
+                    ModuleName = x.GetMenu?.GetModule?.Name
                 });
 
             return new ApiResponse(true, lstDto);
@@ -39,7 +41,7 @@ namespace Kemet.ERP.Services.Identity
         public async Task<ApiResponse> GetByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             var entity =
-                await _unitOfWork.Repository().GetByIdAsync<PageMaster>(id, cancellationToken, "GetMenu");
+                await _unitOfWork.Repository().GetByIdAsync<PageMaster>(id, cancellationToken, "GetMenu.GetModule");
 
             if (entity is null)
                 throw new EntityNotFoundException<PageMaster>(id);
@@ -53,7 +55,9 @@ namespace Kemet.ERP.Services.Identity
                     Icon = entity.Icon,
                     Label = entity.Label,
                     Url = entity.Url,
-                    MenuName = entity.GetMenu?.Name
+                    MenuName = entity.GetMenu?.Name,
+                    ModuleId = entity.GetMenu?.ModuleId,
+                    ModuleName = entity.GetMenu?.GetModule?.Name
                 };
 
             return new ApiResponse(true, entityDto);
@@ -120,7 +124,7 @@ namespace Kemet.ERP.Services.Identity
                 x.MenuId == menuId,
                 null, null, null,
                 cancellationToken,
-                "GetMenu");
+                "GetMenu.GetModule");
 
             var lstDto =
                 lst.Select(x => new PageMasterListingDto
@@ -131,7 +135,9 @@ namespace Kemet.ERP.Services.Identity
                     Icon = x.Icon,
                     Label = x.Label,
                     Url = x.Url,
-                    MenuName = x.GetMenu?.Name
+                    MenuName = x.GetMenu?.Name,
+                    ModuleId = x.GetMenu?.ModuleId,
+                    ModuleName = x.GetMenu?.GetModule?.Name
                 });
 
             return new ApiResponse(true, lstDto);

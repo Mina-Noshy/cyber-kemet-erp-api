@@ -1,11 +1,9 @@
 ﻿using Kemet.ERP.Abstraction.Identity;
 using Kemet.ERP.Contracts.Identity;
-using Kemet.ERP.Presentation.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kemet.ERP.Presentation.Controllers.Identity
 {
-    [ApiKeyAuth]
     public class AuthController : BaseIdentityController
     {
         private readonly IAuthService _service;
@@ -15,14 +13,6 @@ namespace Kemet.ERP.Presentation.Controllers.Identity
 
 
 
-
-        [HttpGet("get-roles")]
-        public async Task<IActionResult> GetRolesAsync(CancellationToken cancellationToken)
-            => FormatHttpResponse(await _service.GetRolesAsync(cancellationToken));
-
-        [HttpGet("get-role/{id}")]
-        public async Task<IActionResult> GetRoleByIdAsync(string id, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _service.GetRoleByIdAsync(id, cancellationToken));
 
         [HttpPost("get-token")]
         public async Task<IActionResult> GetTokenAsync(GetTokenDto request, CancellationToken cancellationToken)
@@ -44,12 +34,5 @@ namespace Kemet.ERP.Presentation.Controllers.Identity
         public async Task<IActionResult> RemoveUserRoleAsync(UserToRoleDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.RemoveUserRoleAsync(request, cancellationToken));
 
-        [HttpPost("create-role")]
-        public async Task<IActionResult> CreateRoleAsync(RoleCommandDto request, CancellationToken cancellationToken)
-            => FormatHttpResponse(await _service.CreateRoleAsync(request.Role, cancellationToken));
-
-        [HttpDelete("delete-role")]
-        public async Task<IActionResult> DeleteRoleAsync(RoleCommandDto request, CancellationToken cancellationToken)
-           => FormatHttpResponse(await _service.DeleteRoleAsync(request.Role, cancellationToken));
     }
 }

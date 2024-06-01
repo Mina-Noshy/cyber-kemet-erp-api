@@ -6,6 +6,9 @@ namespace Kemet.ERP.Contracts.Identity
     {
         public long Id { get; set; }
 
+        public long? ModuleId { get; set; }
+        public string? ModuleName { get; set; }
+
         public long MenuId { get; set; }
         public string MenuName { get; set; }
 

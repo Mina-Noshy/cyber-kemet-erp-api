@@ -1,6 +1,6 @@
 ﻿using Kemet.ERP.Api.Middleware;
 using Kemet.ERP.Contracts.Response;
-using Kemet.ERP.Shared.Utilities;
+using Kemet.ERP.Domain.Common.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

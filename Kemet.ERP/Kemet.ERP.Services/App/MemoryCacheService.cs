@@ -1,6 +1,5 @@
 ﻿using Kemet.ERP.Abstraction.App;
 using Kemet.ERP.Domain.IRepositories.App;
-using Kemet.ERP.Shared.Constants;
 
 namespace Kemet.ERP.Services.App
 {
@@ -12,13 +11,13 @@ namespace Kemet.ERP.Services.App
 
 
 
-        public T? Get<T>(CacheServiceKeys key)
+        public T? Get<T>(string key)
             => _repository.Get<T>(key);
 
-        public void Set<T>(CacheServiceKeys key, T value, TimeSpan expiration)
+        public void Set<T>(string key, T value, TimeSpan expiration)
             => _repository.Set(key, value, expiration);
 
-        public void Remove(CacheServiceKeys key)
+        public void Remove(string key)
             => _repository.Remove(key);
     }
 }

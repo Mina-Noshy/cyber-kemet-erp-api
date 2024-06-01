@@ -13,5 +13,7 @@ namespace Kemet.ERP.Domain.Entities.Identity
 
         [ForeignKey(nameof(MenuId))]
         public virtual MenuMaster? GetMenu { get; set; }
+
+        public virtual ICollection<RolePageMaster>? GetRolePages { get; set; }
     }
 }

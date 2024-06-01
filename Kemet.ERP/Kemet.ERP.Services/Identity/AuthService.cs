@@ -1,10 +1,10 @@
 ﻿using Kemet.ERP.Abstraction.Identity;
 using Kemet.ERP.Contracts.Identity;
 using Kemet.ERP.Contracts.Response;
+using Kemet.ERP.Domain.Common.Utilities;
 using Kemet.ERP.Domain.Entities.Identity;
+using Kemet.ERP.Domain.IRepositories;
 using Kemet.ERP.Domain.IRepositories.Identity;
-using Kemet.ERP.Shared.Utilities;
-using Mapster;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,9 +17,10 @@ namespace Kemet.ERP.Services.Identity
     {
         private readonly IAuthRepository _authRepository;
         private readonly IAccountRepository _accountRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthService(IAuthRepository authRepository, IAccountRepository accountRepository)
-            => (_authRepository, _accountRepository) = (authRepository, accountRepository);
+        public AuthService(IAuthRepository authRepository, IAccountRepository accountRepository, IUnitOfWork unitOfWork)
+            => (_authRepository, _accountRepository, _unitOfWork) = (authRepository, accountRepository, unitOfWork);
 
 
         public async Task<ApiResponse> AddUserRoleAsync(UserToRoleDto request, CancellationToken cancellationToken = default)
@@ -78,65 +79,6 @@ namespace Kemet.ERP.Services.Identity
                 return new ApiResponse(true, $"Role '{request.Role}' has been successfully removed from the user '{user.UserName}'.");
 
             return new ApiResponse(false, $"Something went wrong");
-        }
-
-        public async Task<ApiResponse> CreateRoleAsync(string role, CancellationToken cancellationToken = default)
-        {
-            var roleEntity =
-                await _authRepository.GetRoleByNameAsync(role, cancellationToken);
-
-            if (roleEntity != null)
-                return new ApiResponse(false, $"Role with name '{role}' already exist.");
-
-            var result =
-                await _authRepository.CreateRoleAsync(role, cancellationToken);
-
-            if (result.Succeeded)
-                return new ApiResponse(true, $"Role '{role}' has been created successfully.");
-
-            return new ApiResponse(false, $"Something went wrong");
-        }
-
-        public async Task<ApiResponse> DeleteRoleAsync(string role, CancellationToken cancellationToken = default)
-        {
-            var roleEntity =
-                await _authRepository.GetRoleByNameAsync(role, cancellationToken);
-
-            if (roleEntity is null)
-                return new ApiResponse(false, $"Role with name '{role}' was not found.");
-
-            var result =
-                await _authRepository.DeleteRoleAsync(role, cancellationToken);
-
-            if (result.Succeeded)
-                return new ApiResponse(true, $"Role '{role}' has been deleted successfully.");
-
-            return new ApiResponse(false, $"Something went wrong");
-        }
-
-        public async Task<ApiResponse?> GetRoleByIdAsync(string id, CancellationToken cancellationToken = default)
-        {
-            var entity =
-                await _authRepository.GetRoleByIdAsync(id, cancellationToken);
-
-            if (entity is null)
-                return new ApiResponse(false, $"Role with ID '{id}' was not found.");
-
-            var entityDto =
-                entity.Adapt<RoleDto>();
-
-            return new ApiResponse(true, entityDto);
-        }
-
-        public async Task<ApiResponse> GetRolesAsync(CancellationToken cancellationToken = default)
-        {
-            var lst =
-                await _authRepository.GetRolesAsync(cancellationToken);
-
-            var lstDto =
-                lst.Adapt<IEnumerable<RoleDto>>();
-
-            return new ApiResponse(true, lstDto);
         }
 
         public async Task<ApiResponse> RefreshTokenAsync(TokenDto request, CancellationToken cancellationToken = default)
@@ -278,7 +220,10 @@ namespace Kemet.ERP.Services.Identity
             var roles =
                 (await _authRepository.GetUserRolesAsync(user, cancellationToken))?.ToList();
 
-            var userInfo = new UserInfoDto
+            var permissions
+                = (await GetUserPermissions(user, roles, cancellationToken))?.ToList();
+
+            var userInfoDto = new UserInfoDto
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -288,14 +233,58 @@ namespace Kemet.ERP.Services.Identity
                 AccessToken = GenerateJwtToken(user, roles),
                 RefreshToken = refreshToken.Token,
                 TokenExpiration = refreshToken.ExpiresOn,
-                Roles = roles
+                Roles = roles,
+                Permissions = permissions
             };
 
             user.RefreshTokens.Add(refreshToken);
             _authRepository.UpdateUser(user);
             await _authRepository.CommitAsync(cancellationToken);
 
-            return userInfo;
+            return userInfoDto;
+        }
+
+        private async Task<IEnumerable<UserModuleDto>?> GetUserPermissions(AppUser user, List<string>? roles, CancellationToken cancellationToken = default)
+        {
+            if (roles is null)
+                return null;
+
+            var permissions = await _unitOfWork.Repository().FindAsync<RolePageMaster>(
+                x => roles.Contains(x.GetRole.Name),
+                null, null, null, cancellationToken,
+                "GetPage.GetMenu.GetModule");
+
+
+            var userPermissions = permissions
+            .GroupBy(rp => new { rp.GetPage?.GetMenu?.GetModule?.Name, rp.GetPage?.GetMenu?.GetModule?.Label, rp.GetPage?.GetMenu?.GetModule?.Icon })
+            .Select(group => new UserModuleDto
+            {
+                Module = group.Key.Name,
+                Label = group.Key.Label,
+                Icon = group.Key.Icon,
+                Menus = group
+                    .GroupBy(rp => new { rp.GetPage?.GetMenu?.Name, rp.GetPage?.GetMenu?.Label, rp.GetPage?.GetMenu?.Icon })
+                    .Select(menuGroup => new UserMenuDto
+                    {
+                        Menu = menuGroup.Key.Name,
+                        Label = menuGroup.Key.Label,
+                        Icon = menuGroup.Key.Icon,
+                        Pages = menuGroup
+                            .Select(rp => new UserPageDto
+                            {
+                                Page = rp.GetPage?.Name,
+                                Url = rp.GetPage?.Url,
+                                Label = rp.GetPage?.Label,
+                                Icon = rp.GetPage?.Icon,
+                                Create = rp.Create,
+                                Update = rp.Update,
+                                Delete = rp.Delete,
+                                Export = rp.Export
+                            }).ToList()
+                    }).ToList()
+            }).ToList();
+
+            return userPermissions;
         }
     }
 }

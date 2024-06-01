@@ -28,11 +28,11 @@ namespace Kemet.ERP.Presentation.Controllers.HR.Master
             => FormatHttpResponse(await _service.GetByIdAsync(id, cancellationToken));
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CompanyMasterDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateAsync([FromForm] CompanyMasterDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.CreateAsync(request, cancellationToken));
 
         [HttpPut("{id:long}")]
-        public async Task<IActionResult> UpdateAsync(long id, CompanyMasterDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateAsync(long id, [FromForm] CompanyMasterDto request, CancellationToken cancellationToken)
             => FormatHttpResponse(await _service.UpdateAsync(id, request, cancellationToken));
 
         [HttpDelete("{id:long}")]
