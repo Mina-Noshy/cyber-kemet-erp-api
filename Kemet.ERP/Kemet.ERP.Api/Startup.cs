@@ -239,12 +239,20 @@ namespace Kemet.ERP.Api
             if (env.IsDevelopment())
             {
                 app.UseSwagger()
-                .UseSwaggerUI();
+                 .UseSwaggerUI(o =>
+                 {
+                     o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+                 });
+
             }
             else
             {
                 app.UseSwagger()
-                .UseSwaggerUI();
+                 .UseSwaggerUI(o =>
+                 {
+                     o.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+                 });
+
             }
 
             // Apply rate limiting

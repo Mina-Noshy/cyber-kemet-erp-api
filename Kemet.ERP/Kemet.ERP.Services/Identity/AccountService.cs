@@ -10,8 +10,9 @@ namespace Kemet.ERP.Services.Identity
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
-        public AccountService(IAccountRepository accountRepository)
-            => _accountRepository = accountRepository;
+        private readonly IAuthRepository _authRepository;
+        public AccountService(IAccountRepository accountRepository, IAuthRepository authRepository)
+            => (_accountRepository, _authRepository) = (accountRepository, authRepository);
 
 
 
@@ -37,7 +38,18 @@ namespace Kemet.ERP.Services.Identity
                 await _accountRepository.GetUsersAsync(skip, take, cancellationToken);
 
             var lstDto =
-                lst.Adapt<IEnumerable<AppUserDto>>();
+                new List<AppUserDto>();
+
+            foreach (var item in lst)
+            {
+                var userDro =
+                    item.Adapt<AppUserDto>();
+
+                userDro.Roles =
+                    (List<string>)await _authRepository.GetUserRolesAsync(item);
+
+                lstDto.Add(userDro);
+            }
 
             return new ApiResponse(true, lstDto);
         }

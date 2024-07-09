@@ -23,6 +23,12 @@ namespace Kemet.ERP.Services.HR.Master
             var lst =
                 await _unitOfWork.Repository().GetAllAsync<CompanyMaster>(null, null, null, cancellationToken);
 
+            foreach (var item in lst)
+            {
+                string fullPath = Path.Combine(IOHelper.GetCompanyProfilePath(item.Name), item.Logo ?? "");
+                item.Logo = IOHelper.GetFullURL(fullPath);
+            }
+
             var lstDto =
                 lst.Adapt<IEnumerable<CompanyMasterDto>>();
 
@@ -36,6 +42,9 @@ namespace Kemet.ERP.Services.HR.Master
 
             if (entity is null)
                 throw new EntityNotFoundException<CompanyMaster>(id);
+
+            string fullPath = Path.Combine(IOHelper.GetCompanyProfilePath(entity.Name), entity.Logo ?? "");
+            entity.Logo = IOHelper.GetFullURL(fullPath);
 
             var entityDto =
                 entity.Adapt<CompanyMasterDto>();
@@ -54,7 +63,7 @@ namespace Kemet.ERP.Services.HR.Master
             return new ApiResponse(true, lst);
         }
 
-        public async Task<ApiResponse> CreateAsync(CompanyMasterDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> CreateAsync(CreateCompanyMasterDto request, CancellationToken cancellationToken = default)
         {
             var entity =
                 request.Adapt<CompanyMaster>();
@@ -73,7 +82,7 @@ namespace Kemet.ERP.Services.HR.Master
             return new ApiResponse(false, ApiMessage.FailedCreate);
         }
 
-        public async Task<ApiResponse> UpdateAsync(long id, CompanyMasterDto request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse> UpdateAsync(long id, CreateCompanyMasterDto request, CancellationToken cancellationToken = default)
         {
             if (id != request.Id)
                 return new ApiResponse(false, ApiMessage.EntityIdMismatch);

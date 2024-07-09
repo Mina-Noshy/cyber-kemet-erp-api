@@ -1,8 +1,9 @@
 ﻿using Kemet.ERP.Contracts.Shared;
+using Microsoft.AspNetCore.Http;
 
 namespace Kemet.ERP.Contracts.HR.Master
 {
-    public class CompanyMasterDto : IDto
+    public class CreateCompanyMasterDto : IDto
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -17,7 +18,7 @@ namespace Kemet.ERP.Contracts.HR.Master
         public string? Sector { get; set; }
         public string? Description { get; set; }
         public string? Website { get; set; }
-        public string? Logo { get; set; }
+        public IFormFile? Logo { get; set; }
         public string PhoneNumber { get; set; }
         public string? FaxNumber { get; set; }
         public string Email { get; set; }
