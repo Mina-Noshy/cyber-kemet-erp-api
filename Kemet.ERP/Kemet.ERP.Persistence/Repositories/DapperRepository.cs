@@ -16,21 +16,21 @@ namespace Kemet.ERP.Persistence.Repositories
             _db = db;
         }
 
-        public async Task<T?> FirstOrDefaultAsync<T>(string sql, object? param = null, int? commandTimeout = null, CommandType? commandType = null) where T : class
+        public async Task<T?> FirstOrDefaultAsync<T>(string sql, object? param = null, CommandType? commandType = null, int? commandTimeout = null) where T : class
         {
             sql = SecureAgainstHarmfulCommands(sql, param);
 
             return await _db.Database.GetDbConnection().QueryFirstOrDefaultAsync<T>(sql, param, _transaction, commandTimeout, commandType);
         }
 
-        public async Task<List<T>?> ListAsync<T>(string sql, object? param = null, int? commandTimeout = null, CommandType? commandType = null) where T : class
+        public async Task<List<T>?> ListAsync<T>(string sql, object? param = null, CommandType? commandType = null, int? commandTimeout = null) where T : class
         {
             sql = SecureAgainstHarmfulCommands(sql, param);
 
             return (await _db.Database.GetDbConnection().QueryAsync<T>(sql, param, _transaction, commandTimeout, commandType)).ToList();
         }
 
-        public async Task<DataTable> TableAsync(string sql, object? param = null, int? commandTimeout = null, CommandType? commandType = null)
+        public async Task<DataTable> TableAsync(string sql, object? param = null, CommandType? commandType = null, int? commandTimeout = null)
         {
             sql = SecureAgainstHarmfulCommands(sql, param);
 
@@ -40,7 +40,7 @@ namespace Kemet.ERP.Persistence.Repositories
             return tbl;
         }
 
-        public async Task<int> ExecuteAsync(string sql, object? param = null, int? commandTimeout = null, CommandType? commandType = null)
+        public async Task<int> ExecuteAsync(string sql, object? param = null, CommandType? commandType = null, int? commandTimeout = null)
         {
             sql = SecureAgainstHarmfulCommands(sql, param);
 

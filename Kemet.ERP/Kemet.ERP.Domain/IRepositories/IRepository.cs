@@ -10,6 +10,11 @@ namespace Kemet.ERP.Domain.IRepositories
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
             CancellationToken cancellationToken = default) where T : TEntity;
 
+        Task<IEnumerable<TProjection>> GetDynamicAsync<T, TProjection>(Expression<Func<T, bool>>? filterExpression,
+            Expression<Func<T, TProjection>> selectionExpression,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderByExpression = null,
+            CancellationToken cancellationToken = default) where T : TEntity;
+
         Task<T?> GetByIdAsync<T>(long id,
             CancellationToken cancellationToken = default,
             params string[] includeProperties) where T : TEntity;
