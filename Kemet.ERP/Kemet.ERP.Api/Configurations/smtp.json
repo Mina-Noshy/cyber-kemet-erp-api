@@ -1,7 +1,7 @@
 {
   "SMTP": {
-    "SenderEmail": "info.cyberkemet@gmail.com",
-    "SenderPassword": "wrrtlnvzdoqxcauw",
+    "SenderEmail": "username@gmail.com",
+    "SenderPassword": "password",
     "SmtpHost": "smtp.gmail.com",
     "Port": 587,
     "EnableSsl": true
